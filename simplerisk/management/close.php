@@ -148,7 +148,7 @@ require_once(language_file());
 
 	display_bootstrap_javascript();
 ?>
-<title>SimpleRisk: Enterprise Risk Management Simplified</title>
+<title>Invinsense:  Risk Management Simplified</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <link rel="stylesheet" href="../css/bootstrap.css?<?php echo current_version("app"); ?>">
@@ -156,7 +156,7 @@ require_once(language_file());
 </head>
 
 <body>
-<title>SimpleRisk: Enterprise Risk Management Simplified</title>
+<title>Invinsense:  Risk Management Simplified</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <link rel="stylesheet" href="../css/bootstrap.css?<?php echo current_version("app"); ?>">

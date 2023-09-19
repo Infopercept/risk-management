@@ -279,7 +279,7 @@ else
 	<html ng-app="SimpleRisk">
 	<head>
 	  <meta http-equiv="X-UA-Compatible" content="IE=10,9,7,8">
-	  <title>SimpleRisk: Enterprise Risk Management Simplified</title>
+	  <title>Invinsense: Risk Management Simplified</title>
 	  <!-- build:css vendor/vendor.min.css -->
 	  <!-- endbuild -->
 	  <!-- build:css style.min.css -->

@@ -67,7 +67,7 @@ function display()
 
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=10,9,7,8">
-    <title>SimpleRisk: Enterprise Risk Management Simplified</title>
+    <title>Invinsense:  Risk Management Simplified</title>
 <?php
         // Use these jQuery scripts
         $scripts = [

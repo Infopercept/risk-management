@@ -21385,7 +21385,7 @@ function create_default_admin_account()
     echo "
 <html ng-app=\"SimpleRisk\">
   <head>
-    <title>SimpleRisk: Enterprise Risk Management Simplified</title>
+    <title>Invinsense:  Risk Management Simplified</title>
       <link rel=\"stylesheet\" type=\"text/css\" href=\"css/bootstrap.min.css\" media=\"screen\" />
       <link rel=\"stylesheet\" type=\"text/css\" href=\"css/style.css\" media=\"screen\" />
       <link rel=\"stylesheet\" href=\"css/bootstrap.css\">

@@ -1106,7 +1106,7 @@ function unable_to_communicate_with_database()
 	echo "
 <html ng-app=\"SimpleRisk\">
   <head>
-    <title>SimpleRisk: Enterprise Risk Management Simplified</title>
+    <title>Invinsense:  Risk Management Simplified</title>
       <link rel=\"stylesheet\" type=\"text/css\" href=\"css/bootstrap.min.css\" media=\"screen\" />
       <link rel=\"stylesheet\" type=\"text/css\" href=\"css/style.css\" media=\"screen\" />
       <link rel=\"stylesheet\" href=\"css/bootstrap.css\">

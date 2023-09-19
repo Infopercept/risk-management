@@ -106,7 +106,7 @@ function display($display = "")
         <script src="../vendor/tinymce/tinymce/tinymce.min.js?<?php echo current_version("app"); ?>"></script>
         <script src="../js/WYSIWYG/editor.js?<?php echo current_version("app"); ?>"></script>
 
-        <title>SimpleRisk: Enterprise Risk Management Simplified</title>
+        <title>Invinsense:  Risk Management Simplified</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
         <link rel="stylesheet" href="../css/easyui.css?<?php echo current_version("app"); ?>">

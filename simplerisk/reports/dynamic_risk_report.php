@@ -401,7 +401,7 @@ if (import_export_extra()){
   <script src="../vendor/simplerisk/selectize.js/dist/js/standalone/selectize.min.js?<?php echo current_version("app"); ?>"></script>
   <link rel="stylesheet" href="../css/selectize.bootstrap3.css?<?php echo current_version("app"); ?>">
 
-  <title>SimpleRisk: Enterprise Risk Management Simplified</title>
+  <title>Invinsense:  Risk Management Simplified</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <link rel="stylesheet" href="../css/bootstrap.css?<?php echo current_version("app"); ?>">

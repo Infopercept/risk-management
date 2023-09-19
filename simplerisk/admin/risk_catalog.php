@@ -35,7 +35,7 @@ require_once(language_file());
 
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=10,9,7,8">
-<title>SimpleRisk: Enterprise Risk Management Simplified</title>
+<title>Invinsense:  Risk Management Simplified</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <?php

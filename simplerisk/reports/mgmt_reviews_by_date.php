@@ -31,7 +31,7 @@ $_SESSION["workflow_start"] = $_SERVER['SCRIPT_NAME'];
 <html lang="<?php echo $escaper->escapehtml($_SESSION['lang']); ?>" xml:lang="<?php echo $escaper->escapeHtml($_SESSION['lang']); ?>">
 
 <head>
-    <title>SimpleRisk: Enterprise Risk Management Simplified</title>
+    <title>Invinsense:  Risk Management Simplified</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
