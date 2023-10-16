@@ -4667,21 +4667,21 @@ function view_configure_menu($active)
         echo "</li>\n";
     }
 
-    echo ($active == "Extras" ? "<li class=\"active\">\n" : "<li>\n");
-    echo "<a href=\"extras.php\">" . $escaper->escapeHtml($lang['Extras']) . "</a>\n";
-    echo "</li>\n";
-    echo ($active == "Announcements" ? "<li class=\"active\">\n" : "<li>\n");
-    echo "<a href=\"announcements.php\">" . $escaper->escapeHtml($lang['Announcements']) . "</a>\n";
-    echo "</li>\n";
-    echo ($active == "Register" ? "<li class=\"active\">\n" : "<li>\n");
-    echo "<a href=\"register.php\">" . $escaper->escapeHtml($lang['RegisterAndUpgrade']) . "</a>\n";
-    echo "</li>\n";
+    // echo ($active == "Extras" ? "<li class=\"active\">\n" : "<li>\n");
+    // echo "<a href=\"extras.php\">" . $escaper->escapeHtml($lang['Extras']) . "</a>\n";
+    // echo "</li>\n";
+    // echo ($active == "Announcements" ? "<li class=\"active\">\n" : "<li>\n");
+    // echo "<a href=\"announcements.php\">" . $escaper->escapeHtml($lang['Announcements']) . "</a>\n";
+    // echo "</li>\n";
+    // echo ($active == "Register" ? "<li class=\"active\">\n" : "<li>\n");
+    // echo "<a href=\"register.php\">" . $escaper->escapeHtml($lang['RegisterAndUpgrade']) . "</a>\n";
+    // echo "</li>\n";
     echo ($active == "Health Check" ? "<li class=\"active\">\n" : "<li>\n");
     echo "<a href=\"health_check.php\">" . $escaper->escapeHtml($lang['HealthCheck']) ."</a>\n";
     echo "</li>\n";
-    echo ($active == "About" ? "<li class=\"active\">\n" : "<li>\n");
-    echo "<a href=\"about.php\">" . $escaper->escapeHtml($lang['About']) . "</a>\n";
-    echo "</li>\n";
+    // echo ($active == "About" ? "<li class=\"active\">\n" : "<li>\n");
+    // echo "<a href=\"about.php\">" . $escaper->escapeHtml($lang['About']) . "</a>\n";
+    // echo "</li>\n";
     echo "</ul>\n";
 }
 
