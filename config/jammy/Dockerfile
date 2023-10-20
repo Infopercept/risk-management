@@ -48,16 +48,16 @@ RUN dpkg-divert --local --rename /usr/bin/ischroot && \
 RUN < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c21 > /passwords/pass_openssl.txt
 
 # Install and configure supervisor
-COPY common/supervisord.conf /etc/supervisor/supervisord.conf
+COPY supervisord.conf /etc/supervisor/supervisord.conf
 
 # Configure MySQL
 RUN sed -i 's/\[mysqld\]/\[mysqld\]\nsql-mode="NO_ENGINE_SUBSTITUTION"/g' /etc/mysql/mysql.conf.d/mysqld.cnf
 
 # Configure Apache
-COPY common/foreground.sh /etc/apache2/foreground.sh
-COPY common/envvars /etc/apache2/envvars
-COPY common/000-default.conf /etc/apache2/sites-enabled/000-default.conf
-COPY common/default-ssl.conf /etc/apache2/sites-enabled/default-ssl.conf
+COPY foreground.sh /etc/apache2/foreground.sh
+COPY envvars /etc/apache2/envvars
+COPY 000-default.conf /etc/apache2/sites-enabled/000-default.conf
+COPY default-ssl.conf /etc/apache2/sites-enabled/default-ssl.conf
 RUN sed -i 's/\(upload_max_filesize =\) .*\(M\)/\1 5\2/g' /etc/php/8.1/apache2/php.ini && \
 	sed -i 's/\(memory_limit =\) .*\(M\)/\1 256\2/g' /etc/php/8.1/apache2/php.ini && \
 	sed -i 's/;.*\(max_input_vars =\) .*/\1 3000/g' /etc/php/8.1/apache2/php.ini && \
@@ -87,7 +87,7 @@ RUN echo %sudo  ALL=NOPASSWD: ALL >> /etc/sudoers && \
 # Download SimpleRisk
 RUN rm -rf /var/www/
 RUN git clone https://github.com/Infopercept/risk-management.git /var/www/ 
-COPY common/simplerisk.sql /simplerisk.sql
+COPY simplerisk.sql /simplerisk.sql
 
 # Permissions
 RUN chown -R www-data: /var/www/simplerisk
@@ -101,7 +101,7 @@ EXPOSE 80
 EXPOSE 443
 
 # Create the start script and set permissions
-COPY common/entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh /etc/apache2/foreground.sh
 
 # Data to save
