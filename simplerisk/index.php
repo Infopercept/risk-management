@@ -5,7 +5,7 @@
 
 // Include the SimpleRisk configuration file
 require_once(realpath(__DIR__ . '/includes/config.php'));
-
+// this comment is just for testing purpose please ignore it.
 // If the database hasn't been installed yet
 if (defined('SIMPLERISK_INSTALLED') && SIMPLERISK_INSTALLED == "false")
 {
