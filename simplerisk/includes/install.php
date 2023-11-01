@@ -175,11 +175,11 @@ function display_install_header()
       <div class=\"navbar\">
         <div class=\"navbar-inner\">
           <div class=\"container-fluid\">
-            <a class=\"brand\" href=\"https://www.simplerisk.com/\"><img src=\"images/logo@2x.png\" alt=\"SimpleRisk Logo\" /></a>
+            <a class=\"brand\" href=\"https://www.infopercept.com/\"><img src=\"images/logo@2x.png\" alt=\"Enterprise Risk Management\" /></a>
             <div class=\"navbar-content pull-right\">
               <ul class=\"nav\">
                 <li>
-                  <a href=\"index.php\">Install SimpleRisk</a>
+                  <a href=\"index.php\">Install Risk Management</a>
                 </li>
               </ul>
             </div>
