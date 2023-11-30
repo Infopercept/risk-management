@@ -3978,7 +3978,7 @@ function view_top_menu($active)
         echo "<div class=\"navbar\">\n";
         echo "<div class=\"navbar-inner\">\n";
         echo "<div class=\"container-fluid\">\n";
-            echo "<a class=\"brand\" href=\"https://www.simplerisk.com/\"><img src='images/logo@2x.png' alt='SimpleRisk Logo' /></a>\n";
+            echo "<a class=\"brand\" href=\"https://www.infopercept.com/\"><img src='images/logo@2x.png' alt='Invinsense Enterprise Risk Management' /></a>\n";
         echo "<div class=\"navbar-content\">\n";
         echo "<ul class=\"nav\">\n";
         // If the user has asset management permissions
@@ -4037,7 +4037,7 @@ function view_top_menu($active)
         echo "<div class=\"navbar\">\n";
         echo "<div class=\"navbar-inner\">\n";
         echo "<div class=\"container-fluid\">\n";
-        echo "<a class=\"brand\" href=\"https://www.simplerisk.com/\"><img src='../images/logo@2x.png' alt='SimpleRisk Logo' /></a>\n";
+        echo "<a class=\"brand\" href=\"https://www.infopercept.com/\"><img src='../images/logo@2x.png' alt='Invinsense Enterprise Risk Management' /></a>\n";
         echo "<div class=\"navbar-content\">\n";
         echo "<ul class=\"nav\">\n";
 // echo ($active == "Home" ? "<li class=\"active\">\n" : "<li>\n");

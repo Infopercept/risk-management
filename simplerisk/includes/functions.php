@@ -21400,7 +21400,7 @@ function create_default_admin_account()
       <div class=\"navbar\">
         <div class=\"navbar-inner\">
           <div class=\"container-fluid\">
-            <a class=\"brand\" href=\"https://www.simplerisk.com/\"><img src=\"images/logo@2x.png\" alt=\"SimpleRisk Logo\" /></a>
+            <a class=\"brand\" href=\"https://www.infopercept.com/\"><img src=\"images/logo@2x.png\" alt=\"Invinsense Enterprise Risk Management\" /></a>
             <div class=\"navbar-content pull-right\">
               <ul class=\"nav\">
                 <li>

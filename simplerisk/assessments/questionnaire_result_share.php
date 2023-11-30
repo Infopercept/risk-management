@@ -128,7 +128,7 @@ if (assessments_extra()) {
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="container">
-                    <a class="brand" href="http://www.simplerisk.com/"><img src='../images/logo@2x.png' alt='SimpleRisk' /></a>
+                    <a class="brand" href="http://www.infopercept.com/"><img src='../images/logo@2x.png' alt='Invinsense Enterprise Risk Management' /></a>
                 </div>
             </div>
         </div>
