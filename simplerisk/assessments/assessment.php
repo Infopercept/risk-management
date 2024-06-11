@@ -127,11 +127,11 @@ else
   <link rel="stylesheet" href="../vendor/components/font-awesome/css/fontawesome.min.css?<?php echo current_version("app"); ?>">
   <link rel="stylesheet" href="../css/theme.css?<?php echo current_version("app"); ?>">
   <link rel="stylesheet" href="../css/side-navigation.css?<?php echo current_version("app"); ?>">
-  
+
   <?php
       setup_favicon("..");
       setup_alert_requirements("..");
-  ?>  
+  ?>
 </head>
 
 <body>
@@ -139,7 +139,7 @@ else
   echo "<div class=\"navbar\">\n";
   echo "<div class=\"navbar-inner\">\n";
   echo "<div class=\"container\">\n";
-  echo "<a class=\"brand\" href=\"http://www.infopercept.com/\"><img src='../images/logo@2x.png' alt='Invinsense Enterprise Risk Management' /></a>\n";
+  echo "<a class=\"brand\" href='#'><img src='../images/logo@2x.png' alt='Invinsense Enterprise Risk Management' /></a>\n";
   echo "</div>\n";
   echo "</div>\n";
   echo "</div>\n";

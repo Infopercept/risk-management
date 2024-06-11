@@ -59,7 +59,7 @@ if (assessments_extra())
         {
             // To make sure the questionnaire processing has enough time
             set_time_limit(600);
-            
+
             // Process action
             if(process_questionnaire_index()){
                 refresh();
@@ -146,14 +146,14 @@ else
       echo "<script>\n";
       echo "var BASE_URL = '". (isset($_SESSION['base_url']) ? $escaper->escapeHtml($_SESSION['base_url']) : "") ."'; \n";
       echo "</script>\n";
-  ?>  
+  ?>
 </head>
 
 <body>
     <div class="navbar">
         <div class="navbar-inner">
             <div class="container">
-                <a class="brand" href="http://www.infopercept.com/"><img src='../images/logo@2x.png' alt='Invinsense Enterprise Risk Management' /></a>
+                <a class="brand" href="#"><img src='../images/logo@2x.png' alt='Invinsense Enterprise Risk Management' /></a>
             </div>
         </div>
     </div>

@@ -49,7 +49,7 @@
         {
             // Set the user permissions
             set_user_permissions($user, true);
-            
+
             // Check if the user is an admin
             if (isset($_SESSION["admin"]) && $_SESSION["admin"] == "1")
             {
@@ -75,7 +75,7 @@
                 set_alert(true, "bad", $escaper->escapeHtml($lang["InvalidUsernameOrPasswordCaseSensitive"]));
             }
             else set_alert(true, "bad", $escaper->escapeHtml($lang["InvalidUsernameOrPassword"]));
-            
+
             // Deny access
             $_SESSION["access"] = "denied";
         }
@@ -120,18 +120,18 @@
       <?php
           setup_favicon("..");
           setup_alert_requirements("..");
-      ?>      
+      ?>
   </head>
 
   <body ng-controller="MainCtrl" class="login--page">
-    
+
     <header class="l-header">
       <div class="navbar">
         <div class="navbar-inner">
           <div class="container-fluid">
-            <a class="brand" href="https://www.infopercept.com/"><img src="../images/logo@2x.png" alt="Invinsense Enterprise Risk Management" /></a>
+            <a class="brand" href="#"><img src="../images/logo@2x.png" alt="Invinsense Enterprise Risk Management" /></a>
             <div class="navbar-content pull-right">
-              <ul class="nav"> 
+              <ul class="nav">
                 <li>
                   <a href="upgrade.php">Database Upgrade Script</a>
                 </li>

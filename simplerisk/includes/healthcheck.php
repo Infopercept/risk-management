@@ -511,12 +511,12 @@ function check_web_connectivity()
  * FUNCTION: CHECK MYSQL PERMISSION *
  ************************************/
 function check_mysql_permission($permission)
-{       
+{
         global $escaper;
-        
+
         // Open a database connection
         $db = db_open();
-        
+
         // Query for the permission
         //$stmt = $db->prepare("SELECT " . $permission . " FROM mysql.db WHERE user='" . DB_USERNAME . "';");
         $stmt = $db->prepare("SHOW GRANTS FOR CURRENT_USER;");
@@ -525,26 +525,26 @@ function check_mysql_permission($permission)
 
         // Close the database connection
         db_close($db);
-        
+
         // Set permission found to false
         $permission_found = false;
-        
+
         foreach ($array as $row)
-        {       
+        {
                 // If the row contains the permission
                 if (preg_match("/" . $permission . "/", $row[0]))
-                {       
+                {
 			// The health check passed
 			$array = array("result" => 1, "text" => "The '" . $escaper->escapeHtml($permission) . "' permssion has been set for the '" . $escaper->escapeHtml(DB_USERNAME) . "' user.");
-                        
+
                         // Set the permission found to true
                         $permission_found = true;
                 }
         }
-        
+
         // If we did not find the permission
         if ($permission_found == false)
-        {       
+        {
 		$array = array("result" => 0, "text" => "The '" . $escaper->escapeHtml($permission) . "' permssion is not set for the '" . $escaper->escapeHtml(DB_USERNAME) . "' user.");
         }
 
@@ -731,23 +731,23 @@ function check_no_zero_date()
 {
         // Open a database connection
         $db = db_open();
-        
+
         // Query for the current SQL mode
         $stmt = $db->prepare("SELECT @@sql_mode;");
         $stmt->execute();
         $array = $stmt->fetch();
         $sql_mode = $array['@@sql_mode'];
-        
+
         // Close the database connection
         db_close($db);
-        
+
         // If the row contains NO_ZERO_DATE
         if (preg_match("/.*NO_ZERO_DATE.*/", $sql_mode))
-        {       
+        {
 		return array("result" => 0, "text" => "SimpleRisk will not work properly with NO_ZERO_DATE enabled.");
         }
-        else    
-        {       
+        else
+        {
 		return array("result" => 1, "text" => "Verified that NO_ZERO_DATE is not enabled for MySQL.");
         }
 }
@@ -783,23 +783,23 @@ function check_only_full_group_by()
 {
         // Open a database connection
         $db = db_open();
-        
+
         // Query for the current SQL mode
         $stmt = $db->prepare("SELECT @@sql_mode;");
         $stmt->execute();
         $array = $stmt->fetch();
         $sql_mode = $array['@@sql_mode'];
-        
+
         // Close the database connection
         db_close($db);
-        
+
         // If the row contains ONLY_FULL_GROUP_BY
         if (preg_match("/.*ONLY_FULL_GROUP_BY.*/", $sql_mode))
-        {       
+        {
 		return array("result" => 0, "text" => "SimpleRisk will not work properly with ONLY_FULL_GROUP_BY enabled.");
         }
-        else    
-        {       
+        else
+        {
 		return array("result" => 1, "text" => "Verified that ONLY_FULL_GROUP_BY is not enabled for MySQL.");
         }
 }
@@ -1121,7 +1121,7 @@ function unable_to_communicate_with_database()
       <div class=\"navbar\">
         <div class=\"navbar-inner\">
           <div class=\"container-fluid\">
-            <a class=\"brand\" href=\"https://www.infopercept.com/\"><img src=\"images/logo@2x.png\" alt=\"Invinsense Enterprise Risk Management\" /></a>
+            <a class=\"brand\" href='#'><img src=\"images/logo@2x.png\" alt=\"Invinsense Enterprise Risk Management\" /></a>
             <div class=\"navbar-content pull-right\">
               <ul class=\"nav\">
                 <li>

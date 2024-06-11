@@ -84,7 +84,7 @@ Structure of the table configuration through an example:
             'risk_to_location' => 'risk_id',
             // ...
         )
-    ), 
+    ),
 
 When adding a new table please make sure to add all the related junction tables
 you want to clear the associations from, when an entry is deleted from the table.
@@ -106,7 +106,7 @@ $junction_config = array(
         'junctions' => array(
             'user_to_team' => 'user_id',
             'risk_to_additional_stakeholder' => 'user_id',
-            'permission_to_user' => 'user_id' // There's no permission counterpart to this, as permissions can't be deleted 
+            'permission_to_user' => 'user_id' // There's no permission counterpart to this, as permissions can't be deleted
         )
     ),
     'risks' => array(
@@ -120,13 +120,13 @@ $junction_config = array(
             'risks_to_asset_groups' => 'risk_id',
             'risks_to_assets' => 'risk_id'
         )
-    ),    
+    ),
     'location' => array(
         'id_field' => 'value',
         'junctions' => array(
             'risk_to_location' => 'location_id'
         )
-    ),     
+    ),
     'technology' => array(
         'id_field' => 'value',
         'junctions' => array(
@@ -261,7 +261,7 @@ $junction_config = array(
 // as those have per type access permission checks.
 // Also have to:
 //      -add localization for tag types(example: 'TagType_risk' => 'Risk')
-//      -add it to the $junction_config 
+//      -add it to the $junction_config
 $tag_types = ['risk', 'asset', 'questionnaire_risk', 'questionnaire_answer', 'questionnaire_pending_risk', 'incident_management_source', 'incident_management_destination', 'test', 'test_audit'];
 
 
@@ -931,7 +931,7 @@ $field_settings_views = [
          'edit_ajax_uri' => '/api/assets/update_asset_field',
          ],*/
     ],
-    
+
     'perform_reviews' => [
         'view_type' => 'risk',
         'datatable_ajax_uri' => '/api/risk_management/managment_review',
@@ -991,7 +991,7 @@ $field_settings_views = [
             'next_review_date',
         ],
     ],
-    
+
 ];
 
 /******************************
@@ -1117,9 +1117,9 @@ function get_table($name)
     elseif ($name == "ldap_group_and_teams")
     {
         $stmt = $db->prepare("SELECT t1.*, t2.name as team_name FROM `{$name}` t1 LEFT JOIN `team` t2 ON t1.team_id=t2.value ORDER BY t1.value");
-    }    
+    }
     // Otherwise, order by value
-    else 
+    else
     {
         $stmt = $db->prepare("SELECT * FROM `{$name}` ORDER BY value");
     }
@@ -1128,7 +1128,7 @@ function get_table($name)
 
     // Store the list in the array
     $array = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
     if($name == "assets")
     {
         foreach($array as &$row)
@@ -1172,14 +1172,14 @@ function get_unique_values_from_text_array($all_values, $text_array)
             }
         }
     }
-    
+
     return $results;
 }
 
 /**************************************************************************
  * FUNCTION: GET UNIQUE TEXTS FROM TEXT ARRAY                  *
- * Input : Name1{$delimiter2}Value1{$delimiter1} Name2_Value2{$delimiter1} 
- * Output: 
+ * Input : Name1{$delimiter2}Value1{$delimiter1} Name2_Value2{$delimiter1}
+ * Output:
  *      [
  *          ["text"=>Name1, "value"=>Value1],
  *          ["text"=>Name2, "value"=>Value2],
@@ -1189,20 +1189,20 @@ function get_unique_values_from_text_array($all_values, $text_array)
 function get_name_value_array_from_text_array($text_array, $delimiter1=",", $delimiter2="---", $decrypt=false, $sort_by_key=false)
 {
     global $escaper, $lang;
-    
+
     $unique_name_values = [];
     foreach($text_array as $text)
     {
         $unique_name_values = array_merge($unique_name_values, explode($delimiter1, (string)$text));
     }
-    
+
     $unique_name_values = array_unique(array_map("trim", $unique_name_values));
     $results = [];
     $texts = [];
     foreach($unique_name_values as $name_val)
     {
         $name_val = trim($name_val);
-        
+
         $arr = explode($delimiter2, $name_val);
         if(!empty($arr[1]))
         {
@@ -1244,12 +1244,12 @@ function save_dynamic_selections($type, $name, $custom_display_settings,$custom_
     $custom_display_settings = json_encode($custom_display_settings);
     $custom_selection_settings = json_encode($custom_selection_settings);
     $custom_column_filters = json_encode($custom_column_filters);
-    
+
     // Open the database connection
     $db = db_open();
 
     $stmt = $db->prepare("INSERT INTO `dynamic_saved_selections` (`user_id`,`type`,`name`, `custom_display_settings`, `custom_selection_settings`, `custom_column_filters`) VALUES (:user_id, :type, :name, :custom_display_settings, :custom_selection_settings, :custom_column_filters); ");
-    
+
     $stmt->bindParam(":user_id", $_SESSION['uid'], PDO::PARAM_INT);
     $stmt->bindParam(":type", $type, PDO::PARAM_STR);
     $stmt->bindParam(":name", $name, PDO::PARAM_STR);
@@ -1280,7 +1280,7 @@ function delete_dynamic_selection($id)
     $db = db_open();
 
     $stmt = $db->prepare("DELETE FROM `dynamic_saved_selections` WHERE value=:value; ");
-    
+
     $stmt->bindParam(":value", $id, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -1309,7 +1309,7 @@ function check_exisiting_dynamic_selection_name($user_id, $name)
 
     // Close the database connection
     db_close($db);
-    
+
     return $array ? true: false;
 }
 
@@ -1366,7 +1366,7 @@ function get_teams_by_login_user(){
 
     // Store the list in the array
     $array = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
     // Close the database connection
     db_close($db);
 
@@ -1406,18 +1406,18 @@ function get_table_ordered_by_name($table_name)
             return strcmp( strtolower(trim($a['name'])), strtolower(trim($b['name'])));
         });
     }
-    
+
     return $array;
 }
 
 /******************************
  * FUNCTION: GET CUSTOM TABLE *
- * 
+ *
  * Some info on the user management for some of the options.
- * "user": It will return all users, ignoring the organizational hierarchy extra for admin users, use the selected business unit for non-admin users 
+ * "user": It will return all users, ignoring the organizational hierarchy extra for admin users, use the selected business unit for non-admin users
  * "enabled/disabled_users": Will return the enabled/disabled users of the selected business unit(EVEN FOR ADMINS). Use it outside of admin-only area
  * "enabled/disabled_users_all": Will return the enabled/disabled users, ignoring the selected business unit. Use it ONLY inside of admin-only area
- * 
+ *
  ******************************/
 function get_custom_table($type)
 {
@@ -1448,16 +1448,16 @@ function get_custom_table($type)
                 ORDER BY
                     `u`.`name`;
             ");
-            
+
             if (!isset($_SESSION['selected_business_unit'])) {
                 require_once(realpath(__DIR__ . '/../extras/organizational_hierarchy/index.php'));
                 $selected_business_unit = get_selected_business_unit($_SESSION['uid']);
             } else {
                 $selected_business_unit = $_SESSION['selected_business_unit'];
             }
-            
+
             $stmt->bindParam(":selected_business_unit", $selected_business_unit, PDO::PARAM_INT);
-            
+
         } else {
             $stmt = $db->prepare("SELECT * FROM `user` ORDER BY `name`;");
         }
@@ -1502,7 +1502,7 @@ function get_custom_table($type)
                     LEFT JOIN `team` t ON `u2t`.`team_id` = `t`.`value`
                 WHERE
                     `u`.`enabled` = :enabled
-                GROUP BY 
+                GROUP BY
                     `u`.`value`
                 ORDER BY
                     `u`.`name`;
@@ -1719,7 +1719,7 @@ function get_custom_table($type)
 /************************************
  * FUNCTION: GET OPTIONS FROM TABLE *
  * Some info on the user management for some of the options.
- * "user": It will return all users, ignoring the organizational hierarchy extra for admin users, use the selected business unit for non-admin users 
+ * "user": It will return all users, ignoring the organizational hierarchy extra for admin users, use the selected business unit for non-admin users
  * "enabled/disabled_users": Will return the enabled/disabled users of the selected business unit(EVEN FOR ADMINS). Use it outside of admin-only area
  * "enabled/disabled_users_all": Will return the enabled/disabled users, ignoring the selected business unit. Use it ONLY inside of admin-only area
  ************************************/
@@ -1979,7 +1979,7 @@ function convert_color_code($color_name)
 
 /**
  * Converts hex colors to rgb(a is optional)
- * 
+ *
  * Usage:
  * $color = '#ffa226';
  * $rgb = hex2rgba($color);
@@ -2174,7 +2174,7 @@ function create_multiusers_dropdown($name, $selected = "", $custom_html = "", $r
 /*****************************
  * FUNCTION: CREATE DROPDOWN *
  * Some info on the user management for some of the options.
- * "user": It will return all users, ignoring the organizational hierarchy extra for admin users, use the selected business unit for non-admin users 
+ * "user": It will return all users, ignoring the organizational hierarchy extra for admin users, use the selected business unit for non-admin users
  * "enabled/disabled_users": Will return the enabled/disabled users of the selected business unit(EVEN FOR ADMINS). Use it outside of admin-only area
  * "enabled/disabled_users_all": Will return the enabled/disabled users, ignoring the selected business unit. Use it ONLY inside of admin-only area
  *****************************/
@@ -2244,7 +2244,7 @@ function create_dropdown($name, $selected = NULL, $rename = NULL, $blank = true,
 /**************************************
  * FUNCTION: CREATE MULTIPLE DROPDOWN *
  * Some info on the user management for some of the options.
- * "user": It will return all users, ignoring the organizational hierarchy extra for admin users, use the selected business unit for non-admin users 
+ * "user": It will return all users, ignoring the organizational hierarchy extra for admin users, use the selected business unit for non-admin users
  * "enabled/disabled_users": Will return the enabled/disabled users of the selected business unit(EVEN FOR ADMINS). Use it outside of admin-only area
  * "enabled/disabled_users_all": Will return the enabled/disabled users, ignoring the selected business unit. Use it ONLY inside of admin-only area
  **************************************/
@@ -2476,7 +2476,7 @@ function get_risk_level_name($risk)
     global $lang;
 
     $key = "risk_level_name".$risk;
-    
+
     if(!isset($GLOBALS[$key]))
     {
         // If the risk is not null
@@ -2788,7 +2788,7 @@ function update_or_insert_setting($name, $value)
 
     $key = 'setting_'.$name;
     $GLOBALS[$key] = $value;
-    
+
     return true;
 }
 
@@ -2813,7 +2813,7 @@ function update_setting($name, $value)
     $stmt->bindParam(":name", $name, PDO::PARAM_STR, 50);
     $stmt->bindParam(":value", $value, PDO::PARAM_STR, 200);
     $stmt->execute();
-    
+
     $key = 'setting_'.$name;
     $GLOBALS[$key] = $value;
 
@@ -2851,7 +2851,7 @@ function delete_setting($name)
 
     // Close the database connection
     db_close($db);
-    
+
     $key = 'setting_'.$name;
     if(isset($GLOBALS[$key]))
         unset($GLOBALS[$key]);
@@ -3404,10 +3404,10 @@ function user_exist($user)
 
     // Fetch the array
     $array = $stmt->fetchAll();
-    
+
     // Close the database connection
     db_close($db);
-    
+
     return !empty($array);
 }
 
@@ -3770,7 +3770,7 @@ function add_user($type, $user, $email, $name, $salt, $hash, $teams, $role_id, $
     $stmt->bindParam(":custom_display_settings", $custom_display_settings, PDO::PARAM_STR);
 
     $stmt->execute();
-    
+
     $user_id = $db->lastInsertId();
 
     // If it's an admin then make sure that all teams are assigned
@@ -3789,7 +3789,7 @@ function add_user($type, $user, $email, $name, $salt, $hash, $teams, $role_id, $
         // Create a MFA secret for this user
         create_mfa_secret_for_uid($user_id);
     }
-    
+
     // Audit log
     if(!empty($_SESSION['uid']))
     {
@@ -3848,7 +3848,7 @@ function update_user($user_id, $lockout, $type, $name, $email, $teams, $role_id,
         WHERE
             `value`=:user_id;
     ");
-    
+
     $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
     $stmt->bindParam(":lockout", $lockout, PDO::PARAM_INT);
     $stmt->bindParam(":type", $type, PDO::PARAM_STR);
@@ -3872,7 +3872,7 @@ function update_user($user_id, $lockout, $type, $name, $email, $teams, $role_id,
     set_teams_of_user($user_id, $teams);
 
     update_permissions($user_id, $permissions);
-    
+
     // Close the database connection
     db_close($db);
 
@@ -4167,7 +4167,7 @@ function submit_risk($status, $subject, $reference_id, $regulation, $control_num
 
     // Add the risk
     $sql = "INSERT INTO risks (`status`, `subject`, `reference_id`, `regulation`, `control_number`, `source`, `category`, `owner`, `manager`, `assessment`, `notes`, `project_id`, `submitted_by`, `submission_date`, `risk_catalog_mapping`, `threat_catalog_mapping`, `template_group_id`) VALUES (:status, :subject, :reference_id, :regulation, :control_number, :source, :category, :owner, :manager, :assessment, :notes, :project_id, :submitted_by, :submission_date, :risk_catalog_mapping, :threat_catalog_mapping, :template_group_id)";
-    
+
     $try_encrypt_assessment = try_encrypt($assessment);
     $try_encrypt_notes = try_encrypt($notes);
     if($submission_date == false) $submission_date = date("Y-m-d H:i:s");
@@ -4204,7 +4204,7 @@ function submit_risk($status, $subject, $reference_id, $regulation, $control_num
     save_junction_values("risk_to_technology", "risk_id", $last_insert_id, "technology_id", $technology);
     // Save additional stakeholders
     save_junction_values("risk_to_additional_stakeholder", "risk_id", $last_insert_id, "user_id", $additional_stakeholders);
-    
+
     // Audit log
     $risk_id = (int)$last_insert_id + 1000;
 
@@ -4269,7 +4269,7 @@ function submit_risk($status, $subject, $reference_id, $regulation, $control_num
     $username = (isset($_SESSION) && !empty($_SESSION['user']) ? $_SESSION['user'] : get_name_by_value("user", $submitted_by));
 
     $message = "A new risk ID \"" . $risk_id . "\" was submitted by username \"" . $username . "\". \n".$inserted_string;
-    write_log($risk_id, $submitted_by, $message); 
+    write_log($risk_id, $submitted_by, $message);
 
     // Close the database connection
     db_close($db);
@@ -4295,7 +4295,7 @@ function get_cvss_numeric_value($abrv_metric_name, $abrv_metric_value)
     $array = $stmt->fetchAll();
 
     // Close the database connection
-    db_close($db); 
+    db_close($db);
 
     // Return the numeric value found
     return isset($array[0]['numeric_value']) ? $array[0]['numeric_value'] : 0;
@@ -4316,18 +4316,18 @@ function submit_risk_scoring($last_insert_id, $scoring_method="5", $CLASSIC_like
         // Calculate the risk via classic method
         $calculated_risk = calculate_risk($CLASSIC_impact, $CLASSIC_likelihood);
 
-        // Set default impact value 
+        // Set default impact value
         if(!$CLASSIC_impact)
         {
             $CLASSIC_impact = $GLOBALS['count_of_impacts'];
         }
-        
-        // Set default likelihood value 
+
+        // Set default likelihood value
         if(!$CLASSIC_likelihood)
         {
             $CLASSIC_likelihood = $GLOBALS['count_of_likelihoods'];
         }
-        
+
         // Create the database query
         $stmt = $db->prepare("INSERT INTO risk_scoring (`id`, `scoring_method`, `calculated_risk`, `CLASSIC_likelihood`, `CLASSIC_impact`) VALUES (:last_insert_id, :scoring_method, :calculated_risk, :CLASSIC_likelihood, :CLASSIC_impact)");
         $stmt->bindParam(":last_insert_id", $last_insert_id, PDO::PARAM_INT);
@@ -4538,7 +4538,7 @@ function submit_risk_scoring($last_insert_id, $scoring_method="5", $CLASSIC_like
     // If the scroing method is Contributing Risk (6)
     else if($scoring_method == 6){
         $max_likelihood = get_max_value("contributing_risks_likelihood");
-        
+
         $ImpactSum = 0;
         foreach($ContributingImpacts as $contributing_risk_id => $ContributingImpact){
             $impacts = get_impact_values_from_contributing_risks_id($contributing_risk_id);
@@ -4546,13 +4546,13 @@ function submit_risk_scoring($last_insert_id, $scoring_method="5", $CLASSIC_like
             $weight = get_contributing_weight_by_id($contributing_risk_id);
             $ImpactSum += $weight * ($ContributingImpact * 5 / $max_impact);
         }
-        
+
         // Set default Contributing Likelihood value
         $ContributingLikelihood = $ContributingLikelihood ? $ContributingLikelihood : $max_likelihood;
         $LikelihoodSum = $ContributingLikelihood * 5 / $max_likelihood;
-        
+
         $calculated_risk = round($LikelihoodSum + $ImpactSum, 2);
-        
+
         // Create the database query
         $stmt = $db->prepare("INSERT INTO risk_scoring (`id`, `scoring_method`, `calculated_risk`, `Contributing_Likelihood`) VALUES (:last_insert_id, :scoring_method, :calculated_risk, :Contributing_Likelihood)");
         $stmt->bindParam(":last_insert_id", $last_insert_id, PDO::PARAM_INT);
@@ -4560,7 +4560,7 @@ function submit_risk_scoring($last_insert_id, $scoring_method="5", $CLASSIC_like
         $stmt->bindParam(":calculated_risk", $calculated_risk, PDO::PARAM_STR);
         $stmt->bindParam(":Contributing_Likelihood", $ContributingLikelihood, PDO::PARAM_INT);
         $stmt->execute();
-        
+
         // Save contributing impacts and contributing risk IDs
         foreach($ContributingImpacts as $contributing_risk_id => $ContributingImpact){
             // Create the database query
@@ -4570,7 +4570,7 @@ function submit_risk_scoring($last_insert_id, $scoring_method="5", $CLASSIC_like
             $stmt->bindParam(":impact", $ContributingImpact, PDO::PARAM_INT);
             $stmt->execute();
         }
-        
+
     }
     // Otherwise
     else
@@ -5049,7 +5049,7 @@ function update_contributing_risk_score($risk_id, $ContributingLikelihood="", $C
     $db = db_open();
 
     $max_likelihood = get_max_value("contributing_risks_likelihood");
-    
+
     $ImpactSum = 0;
     foreach($ContributingImpacts as $contributing_risk_id => $ContributingImpact){
         $impacts = get_impact_values_from_contributing_risks_id($contributing_risk_id);
@@ -5057,11 +5057,11 @@ function update_contributing_risk_score($risk_id, $ContributingLikelihood="", $C
         $weight = get_contributing_weight_by_id($contributing_risk_id);
         $ImpactSum += $weight * ($ContributingImpact * 5 / $max_impact);
     }
-    
+
     // Set default Contributing Likelihood value
     $ContributingLikelihood = $ContributingLikelihood ? $ContributingLikelihood : $max_likelihood;
     $LikelihoodSum = $ContributingLikelihood * 5 / $max_likelihood;
-    
+
     $calculated_risk = round($LikelihoodSum + $ImpactSum, 2);
 
     // Create the database query
@@ -5071,13 +5071,13 @@ function update_contributing_risk_score($risk_id, $ContributingLikelihood="", $C
     $stmt->bindParam(":Contributing_Likelihood", $ContributingLikelihood, PDO::PARAM_INT);
     // Add the risk score
     $stmt->execute();
-    
+
     // Create the database query
     $stmt = $db->prepare("DELETE from risk_scoring_contributing_impacts WHERE risk_scoring_id=:id; ");
     $stmt->bindParam(":id", $id, PDO::PARAM_INT);
     // Delete existing all risk scoring contributing impacts
     $stmt->execute();
-    
+
     // Save contributing impacts and contributing risk IDs
     foreach($ContributingImpacts as $contributing_risk_id => $ContributingImpact){
         // Create the database query
@@ -5407,7 +5407,7 @@ function save_mitigation_controls($mitigation_id, $control_ids, $post = array())
     $stmt = $db->prepare("DELETE FROM `mitigation_to_controls` WHERE mitigation_id = :mitigation_id");
     $stmt->bindParam(":mitigation_id", $mitigation_id, PDO::PARAM_INT);
     $stmt->execute();
-    
+
     foreach($control_ids as $control_id)
     {
         $validation_details = isset($post["validation_details_".$control_id])?$post["validation_details_".$control_id]:"";
@@ -5421,7 +5421,7 @@ function save_mitigation_controls($mitigation_id, $control_ids, $post = array())
         $stmt->bindParam(":validation_mitigation_percent", $validation_mitigation_percent, PDO::PARAM_INT);
         $stmt->execute();
 
-        // Sanitizing list of ids 
+        // Sanitizing list of ids
         $file_ids = !empty($post['file_ids_' . $control_id]) ? sanitize_int_array($post['file_ids_' . $control_id]) : [];
         refresh_files_for_validation($mitigation_id, $control_id, $file_ids);
 
@@ -5504,7 +5504,7 @@ function submit_mitigation($risk_id, $status, $post, $submitted_by_id=false)
     $mitigation_date            = get_standard_date_from_default_format($mitigation_date, true);
 
     $mitigation_percent         = (isset($post['mitigation_percent']) && $post['mitigation_percent'] >= 0 && $post['mitigation_percent'] <= 100) ? $post['mitigation_percent'] : 0;
-    
+
     $mitigation_controls        = empty($post['mitigation_controls']) ? [] : $post['mitigation_controls'];
 //    $mitigation_controls        = is_array($mitigation_controls) ? implode(",", $mitigation_controls) : $mitigation_controls;
 
@@ -5563,10 +5563,10 @@ function submit_mitigation($risk_id, $status, $post, $submitted_by_id=false)
 
     // Get the new mitigation id
     $mitigation_id = get_mitigation_id($id);
-    
+
     // Save mitigation controls
     save_mitigation_controls($mitigation_id, $mitigation_controls, $post);
-    
+
     // Save mitigation teams
     save_junction_values("mitigation_to_team", "mitigation_id", $mitigation_id, "team_id", $mitigation_team);
 
@@ -5694,7 +5694,7 @@ function submit_unmitigation($risk_id)
     $current_status = get_risk_status($risk_id);
     if($current_status == "Mitigation Planned") $status = "New";
     else $status = $current_status;
-   
+
     // Update the risk status and last_update
     $stmt = $db->prepare("UPDATE risks SET status=:status, last_update=:last_update, mitigation_id='' WHERE id = :risk_id");
     $stmt->bindParam(":status", $status, PDO::PARAM_STR, 20);
@@ -5754,7 +5754,7 @@ function submit_management_review($risk_id, $status, $review, $next_step, $revie
 
     // Add the review
     $stmt = $db->prepare("INSERT INTO mgmt_reviews (`risk_id`, `review`, `reviewer`, `next_step`, `comments`, `next_review`, `submission_date`) VALUES (:risk_id, :review, :reviewer, :next_step, :comments, :next_review, :submission_date)");
-    
+
     $try_encrypt_comments = try_encrypt($comments);
 
     $stmt->bindParam(":risk_id", $id, PDO::PARAM_INT);
@@ -5811,7 +5811,7 @@ function submit_management_review($risk_id, $status, $review, $next_step, $revie
     }
 
     $review_id = $db->lastInsertId();
-    
+
     // Close the database connection
     db_close($db);
 
@@ -5848,7 +5848,7 @@ function submit_management_unreview($risk_id)
     $stmt->bindParam(":risk_id", $id, PDO::PARAM_INT);
 
     $stmt->execute();
-   
+
     // Audit log
     $message = "A management review was deleted for risk ID \"" . $risk_id . "\" by username \"" . $_SESSION['user'] . "\".";
     write_log($risk_id, $_SESSION['uid'], $message);
@@ -5878,8 +5878,8 @@ function update_risk($risk_id, $is_api = false)
             }
         }
     }
-    
-    
+
+
     // If customization extra is enabled
     if(customization_extra())
     {
@@ -5897,7 +5897,7 @@ function update_risk($risk_id, $is_api = false)
     }
     $control_number         = get_param("post", "control_number", false);
     $location               = get_param("post", "location", []);
-    
+
     $source                 = get_param("post", "source", false);
     if($source !== false){
         $source = (int)$source;
@@ -6039,7 +6039,7 @@ function update_risk($risk_id, $is_api = false)
     }
 
     $stmt->execute();
-    
+
     // Save locations
     save_junction_values("risk_to_location", "risk_id", $id, "location_id", $location);
     // Save teams
@@ -6314,7 +6314,7 @@ function get_risk_by_id($id)
         $separation_query = get_user_teams_query("b", false, true);
     } else
         $separation_query = "";
-    
+
     // Query the database
     $stmt = $db->prepare("
         SELECT
@@ -6393,7 +6393,7 @@ function get_risk_teams($id) {
     SELECT
         t.value
     FROM
-        `risks` a 
+        `risks` a
         INNER JOIN `risk_to_team` rtt ON a.id=rtt.risk_id
         INNER JOIN `team` t ON rtt.team_id=t.value
     WHERE
@@ -6408,7 +6408,7 @@ function get_risk_teams($id) {
 
     // Close the database connection
     db_close($db);
-    
+
     return $result && $result[0] ? implode(',', $result) : [];
 }
 
@@ -6424,7 +6424,7 @@ function get_mitigation_by_id($risk_id)
     $risk_id = (int)$risk_id - 1000;
 
     // Query the database
-    $stmt = $db->prepare("SELECT t1.*, 
+    $stmt = $db->prepare("SELECT t1.*,
             GROUP_CONCAT(DISTINCT mtc.control_id) mitigation_controls,
             t1.risk_id AS id,
             t1.id AS mitigation_id,
@@ -6589,17 +6589,17 @@ function get_risks_unassigned_project()
     else
     {
         $stmt = $db->prepare("
-            SELECT a.calculated_risk, b.* 
-            FROM risk_scoring a 
-                LEFT JOIN risks b ON a.id = b.id 
+            SELECT a.calculated_risk, b.*
+            FROM risk_scoring a
+                LEFT JOIN risks b ON a.id = b.id
                 RIGHT JOIN (
-                    SELECT c1.risk_id, next_step, date 
-                    FROM mgmt_reviews c1 
-                        RIGHT JOIN (SELECT risk_id, MAX(submission_date) AS date FROM mgmt_reviews GROUP BY risk_id) AS c2 
-                                ON c1.risk_id = c2.risk_id AND c1.submission_date = c2.date 
+                    SELECT c1.risk_id, next_step, date
+                    FROM mgmt_reviews c1
+                        RIGHT JOIN (SELECT risk_id, MAX(submission_date) AS date FROM mgmt_reviews GROUP BY risk_id) AS c2
+                                ON c1.risk_id = c2.risk_id AND c1.submission_date = c2.date
                     WHERE next_step = 2
-                ) AS c ON a.id = c.risk_id 
-            WHERE status != \"Closed\" AND (b.project_id IS NULL or b.project_id=0) 
+                ) AS c ON a.id = c.risk_id
+            WHERE status != \"Closed\" AND (b.project_id IS NULL or b.project_id=0)
             GROUP BY b.id
             ORDER BY calculated_risk DESC;
         ");
@@ -6644,7 +6644,7 @@ function get_project_by_risk_id($risk_id)
     $project = $stmt->fetch();
 
     db_close($db);
-    
+
     // If project exists, decrypt project name
     if($project)
     {
@@ -6669,16 +6669,16 @@ function get_risks_by_project_id($project_id)
     else
     {
         $stmt = $db->prepare("
-            SELECT a.calculated_risk, b.* 
-            FROM risk_scoring a 
-                LEFT JOIN risks b ON a.id = b.id 
+            SELECT a.calculated_risk, b.*
+            FROM risk_scoring a
+                LEFT JOIN risks b ON a.id = b.id
                 RIGHT JOIN (
-                    SELECT c1.risk_id, next_step, date 
-                    FROM mgmt_reviews c1 
-                        RIGHT JOIN (SELECT risk_id, MAX(submission_date) AS date FROM mgmt_reviews GROUP BY risk_id) AS c2 
-                                        ON c1.risk_id = c2.risk_id AND c1.submission_date = c2.date 
+                    SELECT c1.risk_id, next_step, date
+                    FROM mgmt_reviews c1
+                        RIGHT JOIN (SELECT risk_id, MAX(submission_date) AS date FROM mgmt_reviews GROUP BY risk_id) AS c2
+                                        ON c1.risk_id = c2.risk_id AND c1.submission_date = c2.date
                     WHERE next_step = 2
-                ) AS c ON a.id = c.risk_id 
+                ) AS c ON a.id = c.risk_id
             WHERE status != \"Closed\" AND b.project_id = :project_id
             GROUP BY b.id
             ORDER BY calculated_risk DESC;
@@ -6710,10 +6710,10 @@ function get_risks_by_project_id($project_id)
  ***********************/
 function get_risks($sort_order=0, $order_field=false, $order_dir=false)
 {
-    
+
     // Open the database connection
     $db = db_open();
-    
+
     // If sort_field is defined, set sort query
     if($order_field)
     {
@@ -6778,7 +6778,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                 $sort_query = '';
                 // Only check if it's not a custom field
                 if (stripos($order_field, "custom_field_") === false) {
-                    
+
                     // If there're new fields added to the 1-3 queries they should be added above if they need special treatment
                     // or here if they did not
                     $static_allowed_fields = [
@@ -6812,23 +6812,23 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         "team",
                         "technology"
                     ];
-    
-                    // TODO if sorting on a field isn't working then it should be considered to add above or add the whole table to the list in the below query 
+
+                    // TODO if sorting on a field isn't working then it should be considered to add above or add the whole table to the list in the below query
                     $stmt = $db->prepare("
                         SELECT
-                        	DISTINCT `COLUMN_NAME` 
+                        	DISTINCT `COLUMN_NAME`
                         FROM
-                            `INFORMATION_SCHEMA`.`COLUMNS` 
+                            `INFORMATION_SCHEMA`.`COLUMNS`
                         WHERE
                             `TABLE_SCHEMA` = '" . DB_DATABASE . "'
                         	AND `TABLE_NAME` IN ('mitigations', 'risks', 'mgmt_reviews')
                     ");
                     $stmt->execute();
-    
+
                     // Store the list in the array
-                    $dynamic_allowed_fields = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);                
+                    $dynamic_allowed_fields = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
                     $allowed_fields = array_values(array_unique(array_merge($static_allowed_fields, $dynamic_allowed_fields)));
-                    
+
                     if (in_array($order_field, $allowed_fields)) {
                         $sort_query = " ORDER BY `$order_field` {$order_dir} ";
                     }
@@ -6907,7 +6907,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
         if(empty($sort_query)){
             $sort_query = " ORDER BY a.calculated_risk DESC ";
         }
-        
+
         // If the team separation extra is not enabled
         if (!team_separation_extra())
         {
@@ -6924,7 +6924,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         WHERE
                             rtl.risk_id=b.id AND rtl.location_id=location.value
                     ) AS location,
-                    v.name AS source, 
+                    v.name AS source,
                     d.name AS category,
                     (
                         SELECT
@@ -6953,14 +6953,14 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                     g.name AS owner,
                     h.name AS manager,
                     a.scoring_method,
-                    k.name AS project, 
+                    k.name AS project,
                     DATEDIFF(IF(b.status != 'Closed', NOW(), o.closure_date) , b.submission_date) days_open,
                     i.name AS submitted_by,
                     (
                         SELECT
                             GROUP_CONCAT(t.tag ORDER BY t.tag ASC SEPARATOR ',')
                         FROM
-                            tags t, tags_taggees tt 
+                            tags t, tags_taggees tt
                         WHERE
                             tt.tag_id = t.id AND tt.taggee_id=b.id AND tt.type='risk'
                     ) AS risk_tags,
@@ -6992,13 +6992,13 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         SELECT
                             GROUP_CONCAT(DISTINCT team.name SEPARATOR ',')
                         FROM
-                            team, mitigation_to_team mtt 
+                            team, mitigation_to_team mtt
                         WHERE
                             mtt.mitigation_id=p.id AND mtt.team_id=team.value
                     ) AS mitigation_team,
 
 
-                    NOT(ISNULL(mau.id)) mitigation_accepted, 
+                    NOT(ISNULL(mau.id)) mitigation_accepted,
                     p.submission_date AS mitigation_date,
                     (
                         SELECT
@@ -7006,7 +7006,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         FROM
                             `mitigation_to_controls` mtc INNER JOIN framework_controls fc ON mtc.control_id=fc.id AND fc.deleted=0
                         WHERE
-                            mtc.mitigation_id=p.id 
+                            mtc.mitigation_id=p.id
                     ) AS mitigation_controls,
                     p.current_solution,
                     p.security_recommendations,
@@ -7065,7 +7065,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         WHERE
                             rtl.risk_id=b.id AND rtl.location_id=location.value
                     ) AS location,
-                    v.name AS source, 
+                    v.name AS source,
                     d.name AS category,
                     (
                         SELECT
@@ -7094,14 +7094,14 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                     g.name AS owner,
                     h.name AS manager,
                     a.scoring_method,
-                    k.name AS project, 
+                    k.name AS project,
                     DATEDIFF(IF(b.status != 'Closed', NOW(), o.closure_date) , b.submission_date) days_open,
                     i.name AS submitted_by,
                     (
                         SELECT
                             GROUP_CONCAT(t.tag ORDER BY t.tag ASC SEPARATOR ',')
                         FROM
-                            tags t, tags_taggees tt 
+                            tags t, tags_taggees tt
                         WHERE
                             tt.tag_id = t.id AND tt.taggee_id=b.id AND tt.type='risk'
                     ) AS risk_tags,
@@ -7133,13 +7133,13 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         SELECT
                             GROUP_CONCAT(DISTINCT team.name SEPARATOR ',')
                         FROM
-                            team, mitigation_to_team mtt 
+                            team, mitigation_to_team mtt
                         WHERE
                             mtt.mitigation_id=p.id AND mtt.team_id=team.value
                     ) AS mitigation_team,
 
 
-                    NOT(ISNULL(mau.id)) mitigation_accepted, 
+                    NOT(ISNULL(mau.id)) mitigation_accepted,
                     p.submission_date AS mitigation_date,
                     (
                         SELECT
@@ -7147,7 +7147,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         FROM
                             `mitigation_to_controls` mtc INNER JOIN framework_controls fc ON mtc.control_id=fc.id AND fc.deleted=0
                         WHERE
-                            mtc.mitigation_id=p.id 
+                            mtc.mitigation_id=p.id
                     ) AS mitigation_controls,
                     p.current_solution,
                     p.security_recommendations,
@@ -7216,7 +7216,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         WHERE
                             rtl.risk_id=b.id AND rtl.location_id=location.value
                     ) AS location,
-                    v.name AS source, 
+                    v.name AS source,
                     d.name AS category,
                     (
                         SELECT
@@ -7245,14 +7245,14 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                     g.name AS owner,
                     h.name AS manager,
                     a.scoring_method,
-                    k.name AS project, 
+                    k.name AS project,
                     DATEDIFF(IF(b.status != 'Closed', NOW(), o.closure_date) , b.submission_date) days_open,
                     i.name AS submitted_by,
                     (
                         SELECT
                             GROUP_CONCAT(t.tag ORDER BY t.tag ASC SEPARATOR '|')
                         FROM
-                            tags t, tags_taggees tt 
+                            tags t, tags_taggees tt
                         WHERE
                             tt.tag_id = t.id AND tt.taggee_id=b.id AND tt.type='risk'
                     ) AS risk_tags,
@@ -7284,13 +7284,13 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         SELECT
                             GROUP_CONCAT(DISTINCT team.name SEPARATOR ', ')
                         FROM
-                            team, mitigation_to_team mtt 
+                            team, mitigation_to_team mtt
                         WHERE
                             mtt.mitigation_id=p.id AND mtt.team_id=team.value
                     ) AS mitigation_team,
 
 
-                    NOT(ISNULL(mau.id)) mitigation_accepted, 
+                    NOT(ISNULL(mau.id)) mitigation_accepted,
                     p.submission_date AS mitigation_date,
                     (
                         SELECT
@@ -7298,7 +7298,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         FROM
                             `mitigation_to_controls` mtc INNER JOIN framework_controls fc ON mtc.control_id=fc.id AND fc.deleted=0
                         WHERE
-                            mtc.mitigation_id=p.id 
+                            mtc.mitigation_id=p.id
                     ) AS mitigation_controls,
                     p.current_solution,
                     p.security_recommendations,
@@ -7358,7 +7358,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         WHERE
                             rtl.risk_id=b.id AND rtl.location_id=location.value
                     ) AS location,
-                    v.name AS source, 
+                    v.name AS source,
                     d.name AS category,
                     (
                         SELECT
@@ -7387,14 +7387,14 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                     g.name AS owner,
                     h.name AS manager,
                     a.scoring_method,
-                    k.name AS project, 
+                    k.name AS project,
                     DATEDIFF(IF(b.status != 'Closed', NOW(), o.closure_date) , b.submission_date) days_open,
                     i.name AS submitted_by,
                     (
                         SELECT
                             GROUP_CONCAT(t.tag ORDER BY t.tag ASC SEPARATOR '|')
                         FROM
-                            tags t, tags_taggees tt 
+                            tags t, tags_taggees tt
                         WHERE
                             tt.tag_id = t.id AND tt.taggee_id=b.id AND tt.type='risk'
                     ) AS risk_tags,
@@ -7426,13 +7426,13 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         SELECT
                             GROUP_CONCAT(DISTINCT team.name SEPARATOR ', ')
                         FROM
-                            team, mitigation_to_team mtt 
+                            team, mitigation_to_team mtt
                         WHERE
                             mtt.mitigation_id=p.id AND mtt.team_id=team.value
                     ) AS mitigation_team,
 
 
-                    NOT(ISNULL(mau.id)) mitigation_accepted, 
+                    NOT(ISNULL(mau.id)) mitigation_accepted,
                     p.submission_date AS mitigation_date,
                     (
                         SELECT
@@ -7440,7 +7440,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         FROM
                             `mitigation_to_controls` mtc INNER JOIN framework_controls fc ON mtc.control_id=fc.id AND fc.deleted=0
                         WHERE
-                            mtc.mitigation_id=p.id 
+                            mtc.mitigation_id=p.id
                     ) AS mitigation_controls,
                     p.current_solution,
                     p.security_recommendations,
@@ -7514,7 +7514,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         WHERE
                             rtl.risk_id=b.id AND rtl.location_id=location.value
                     ) AS location,
-                    v.name AS source, 
+                    v.name AS source,
                     d.name AS category,
                     (
                         SELECT
@@ -7543,13 +7543,13 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                     g.name AS owner,
                     h.name AS manager,
                     a.scoring_method,
-                    k.name AS project, 
+                    k.name AS project,
                     i.name AS submitted_by,
                     (
                         SELECT
                             GROUP_CONCAT(t.tag ORDER BY t.tag ASC SEPARATOR '|')
                         FROM
-                            tags t, tags_taggees tt 
+                            tags t, tags_taggees tt
                         WHERE
                             tt.tag_id = t.id AND tt.taggee_id=b.id AND tt.type='risk'
                     ) AS risk_tags,
@@ -7581,13 +7581,13 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         SELECT
                             GROUP_CONCAT(DISTINCT team.name SEPARATOR ', ')
                         FROM
-                            team, mitigation_to_team mtt 
+                            team, mitigation_to_team mtt
                         WHERE
                             mtt.mitigation_id=p.id AND mtt.team_id=team.value
                     ) AS mitigation_team,
 
 
-                    NOT(ISNULL(mau.id)) mitigation_accepted, 
+                    NOT(ISNULL(mau.id)) mitigation_accepted,
                     p.submission_date AS mitigation_date,
                     (
                         SELECT
@@ -7595,7 +7595,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         FROM
                             `mitigation_to_controls` mtc INNER JOIN framework_controls fc ON mtc.control_id=fc.id AND fc.deleted=0
                         WHERE
-                            mtc.mitigation_id=p.id 
+                            mtc.mitigation_id=p.id
                     ) AS mitigation_controls,
                     p.current_solution,
                     p.security_recommendations,
@@ -7656,7 +7656,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         WHERE
                             rtl.risk_id=b.id AND rtl.location_id=location.value
                     ) AS location,
-                    v.name AS source, 
+                    v.name AS source,
                     d.name AS category,
                     (
                         SELECT
@@ -7685,13 +7685,13 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                     g.name AS owner,
                     h.name AS manager,
                     a.scoring_method,
-                    k.name AS project, 
+                    k.name AS project,
                     i.name AS submitted_by,
                     (
                         SELECT
                             GROUP_CONCAT(t.tag ORDER BY t.tag ASC SEPARATOR '|')
                         FROM
-                            tags t, tags_taggees tt 
+                            tags t, tags_taggees tt
                         WHERE
                             tt.tag_id = t.id AND tt.taggee_id=b.id AND tt.type='risk'
                     ) AS risk_tags,
@@ -7723,13 +7723,13 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         SELECT
                             GROUP_CONCAT(DISTINCT team.name SEPARATOR ', ')
                         FROM
-                            team, mitigation_to_team mtt 
+                            team, mitigation_to_team mtt
                         WHERE
                             mtt.mitigation_id=p.id AND mtt.team_id=team.value
                     ) AS mitigation_team,
 
 
-                    NOT(ISNULL(mau.id)) mitigation_accepted, 
+                    NOT(ISNULL(mau.id)) mitigation_accepted,
                     p.submission_date AS mitigation_date,
                     (
                         SELECT
@@ -7737,7 +7737,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                         FROM
                             `mitigation_to_controls` mtc INNER JOIN framework_controls fc ON mtc.control_id=fc.id AND fc.deleted=0
                         WHERE
-                            mtc.mitigation_id=p.id 
+                            mtc.mitigation_id=p.id
                     ) AS mitigation_controls,
                     p.current_solution,
                     p.security_recommendations,
@@ -7963,7 +7963,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
             // Query the database
             $stmt = $db->prepare("SELECT a.calculated_risk, b.*, c.next_review, ROUND((a.calculated_risk - (a.calculated_risk * GREATEST(IFNULL(mg.mitigation_percent,0), IFNULL(MAX(fc.mitigation_percent), 0)) / 100)), 2) as residual_risk
             FROM risk_scoring a
-                LEFT JOIN risks b ON a.id = b.id 
+                LEFT JOIN risks b ON a.id = b.id
                 LEFT JOIN risk_to_team rtt ON b.id = rtt.risk_id
                 LEFT JOIN risk_to_additional_stakeholder rtas ON b.id = rtas.risk_id
                 RIGHT JOIN (SELECT c1.risk_id, c1.next_review , next_step, date FROM mgmt_reviews c1 RIGHT JOIN (SELECT risk_id, MAX(submission_date) AS date FROM mgmt_reviews GROUP BY risk_id) AS c2 ON c1.risk_id = c2.risk_id AND c1.submission_date = c2.date WHERE next_step = 3) AS c ON a.id = c.risk_id
@@ -8054,7 +8054,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
             $separation_query = get_user_teams_query("b", false, true);
 
             // Query the database
-            $stmt = $db->prepare("SELECT a.calculated_risk, b.* FROM risk_scoring a JOIN risks b ON a.id = b.id                 
+            $stmt = $db->prepare("SELECT a.calculated_risk, b.* FROM risk_scoring a JOIN risks b ON a.id = b.id
                 LEFT JOIN risk_to_team rtt ON b.id = rtt.risk_id
                 LEFT JOIN risk_to_additional_stakeholder rtas ON b.id = rtas.risk_id
  WHERE b.status != \"Closed\" AND a.scoring_method = 2 " . $separation_query . " GROUP BY b.id ORDER BY calculated_risk DESC");
@@ -8084,8 +8084,8 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
             $separation_query = get_user_teams_query("b", false, true);
 
             // Query the database
-            $stmt = $db->prepare("SELECT a.calculated_risk, a.CLASSIC_likelihood, a.CLASSIC_impact, b.* FROM risk_scoring a 
-                    JOIN risks b ON a.id = b.id 
+            $stmt = $db->prepare("SELECT a.calculated_risk, a.CLASSIC_likelihood, a.CLASSIC_impact, b.* FROM risk_scoring a
+                    JOIN risks b ON a.id = b.id
                     LEFT JOIN risk_to_team rtt ON b.id = rtt.risk_id
                     LEFT JOIN risk_to_additional_stakeholder rtas ON b.id = rtas.risk_id
                 WHERE b.status != \"Closed\" AND a.scoring_method = 1 " . $separation_query . " GROUP BY b.id ORDER BY calculated_risk DESC");
@@ -8142,7 +8142,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
             $separation_query = get_user_teams_query("a", true, false);
 
             // Query the database
-            $stmt = $db->prepare("SELECT a.subject, a.id, b.submission_date, c.name, d.name AS review, e.name AS next_step FROM risks a 
+            $stmt = $db->prepare("SELECT a.subject, a.id, b.submission_date, c.name, d.name AS review, e.name AS next_step FROM risks a
                 LEFT JOIN risk_to_team rtt ON a.id = rtt.risk_id
                 LEFT JOIN risk_to_additional_stakeholder rtas ON a.id = rtas.risk_id
                 JOIN mgmt_reviews b ON a.id = b.risk_id JOIN user c ON b.reviewer = c.value LEFT JOIN review d ON b.review = d.value LEFT JOIN next_step e ON b.next_step = e.value " . $separation_query . " GROUP BY a.id ORDER BY DATE(b.submission_date) DESC");
@@ -8172,7 +8172,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
             $separation_query = get_user_teams_query("a", true, false);
 
             // Query the database
-            $stmt = $db->prepare("SELECT a.subject, a.id, b.submission_date, c.name, d.name AS planning_strategy, e.name AS mitigation_effort, b.mitigation_cost, f.name AS mitigation_owner, group_concat(distinct g.name) AS mitigation_team FROM risks a 
+            $stmt = $db->prepare("SELECT a.subject, a.id, b.submission_date, c.name, d.name AS planning_strategy, e.name AS mitigation_effort, b.mitigation_cost, f.name AS mitigation_owner, group_concat(distinct g.name) AS mitigation_team FROM risks a
                 LEFT JOIN risk_to_team rtt ON a.id = rtt.risk_id
                 LEFT JOIN risk_to_additional_stakeholder rtas ON a.id = rtas.risk_id
                 JOIN mitigations b ON a.id = b.risk_id JOIN user c ON b.submitted_by = c.value LEFT JOIN planning_strategy d ON b.planning_strategy = d.value LEFT JOIN mitigation_effort e ON b.mitigation_effort = e.value LEFT JOIN user f ON b.mitigation_owner = f.value LEFT JOIN mitigation_to_team mtt ON b.id=mtt.mitigation_id LEFT JOIN team g ON mtt.team_id=g.value " . $separation_query . " GROUP BY a.id ORDER BY DATE(b.submission_date) DESC; ");
@@ -8205,8 +8205,8 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
                 $stmt = $db->prepare("SELECT a.calculated_risk, b.* FROM risk_scoring a JOIN risks b ON a.id = b.id
                     LEFT JOIN risk_to_team rtt ON b.id = rtt.risk_id
                     LEFT JOIN risk_to_additional_stakeholder rtas ON b.id = rtas.risk_id
-                    JOIN risk_scoring c on b.id = c.id WHERE b.status != \"Closed\" AND c.scoring_method = 3 " . $separation_query . " 
-                    GROUP BY b.id 
+                    JOIN risk_scoring c on b.id = c.id WHERE b.status != \"Closed\" AND c.scoring_method = 3 " . $separation_query . "
+                    GROUP BY b.id
                     ORDER BY calculated_risk DESC");
             }
 
@@ -8266,10 +8266,10 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
             $separation_query = get_user_teams_query("b", false, true);
 
             // Query the database
-            $stmt = $db->prepare("SELECT a.calculated_risk, b.* FROM risk_scoring a JOIN risks b ON a.id = b.id 
+            $stmt = $db->prepare("SELECT a.calculated_risk, b.* FROM risk_scoring a JOIN risks b ON a.id = b.id
                 LEFT JOIN risk_to_team rtt ON b.id = rtt.risk_id
                 LEFT JOIN risk_to_additional_stakeholder rtas ON b.id = rtas.risk_id
-                WHERE b.status != \"Closed\" AND a.scoring_method = 5 " . $separation_query . " GROUP BY b.id 
+                WHERE b.status != \"Closed\" AND a.scoring_method = 5 " . $separation_query . " GROUP BY b.id
                 ORDER BY calculated_risk DESC;");
         }
 
@@ -8297,7 +8297,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
             $separation_query = get_user_teams_query("a", false, true);
 
             // Query the database
-            $stmt = $db->prepare("SELECT a.id, a.subject, group_concat(DISTINCT c.name SEPARATOR ', ') AS team, d.name AS user, b.closure_date, e.name AS close_reason, f.calculated_risk FROM risks a LEFT JOIN closures b ON a.close_id = b.id LEFT JOIN risk_to_team rtt ON a.id=rtt.risk_id LEFT JOIN team c ON rtt.team_id=c.value 
+            $stmt = $db->prepare("SELECT a.id, a.subject, group_concat(DISTINCT c.name SEPARATOR ', ') AS team, d.name AS user, b.closure_date, e.name AS close_reason, f.calculated_risk FROM risks a LEFT JOIN closures b ON a.close_id = b.id LEFT JOIN risk_to_team rtt ON a.id=rtt.risk_id LEFT JOIN team c ON rtt.team_id=c.value
             LEFT JOIN risk_to_additional_stakeholder rtas ON b.id = rtas.risk_id
             LEFT JOIN user d ON b.user_id = d.value LEFT JOIN close_reason e ON b.close_reason = e.value LEFT JOIN risk_scoring f ON a.id = f.id WHERE a.status='Closed' " . $separation_query . " GROUP BY a.id ORDER BY b.closure_date DESC; ");
         }
@@ -8353,7 +8353,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
             $separation_query = get_user_teams_query("a", false, true);
 
             // Query the database
-            $stmt = $db->prepare("SELECT a.id, a.subject, c.name AS technology, a.submission_date, b.calculated_risk FROM risks a 
+            $stmt = $db->prepare("SELECT a.id, a.subject, c.name AS technology, a.submission_date, b.calculated_risk FROM risks a
                 LEFT JOIN risk_to_team rtt ON a.id = rtt.risk_id
                 LEFT JOIN risk_to_additional_stakeholder rtas ON a.id = rtas.risk_id
                 LEFT JOIN risk_scoring b ON a.id = b.id LEFT JOIN risk_to_technology rttg ON a.id=rttg.risk_id LEFT JOIN technology c ON rttg.technology_id = c.value WHERE status != 'Closed' " . $separation_query . " GROUP BY a.id, c.value ORDER BY c.value, b.calculated_risk DESC");
@@ -8445,7 +8445,7 @@ function get_risks($sort_order=0, $order_field=false, $order_dir=false)
             $separation_query = get_user_teams_query(false, true, false);
 
             // Query the database
-            $stmt = $db->prepare("SELECT a.* FROM risks a 
+            $stmt = $db->prepare("SELECT a.* FROM risks a
                     LEFT JOIN risk_to_team rtt ON a.id = rtt.risk_id
                     LEFT JOIN risk_to_additional_stakeholder rtas ON a.id = rtas.risk_id
                     " . $separation_query . " GROUP BY a.id ORDER BY a.id ASC;
@@ -8546,7 +8546,7 @@ function get_risk_table($sort_order=0, $activecol="")
 
     $review_levels = get_review_levels();
     $risk_levels = get_risk_levels();
-    
+
     // For each risk
     for ($i=$offset; $i<min($rowsperpage+$offset, $count); $i++)
     {
@@ -8918,7 +8918,7 @@ function get_closed_risks_table($sort_order=17)
     {
         // Get the risk color
         $color = get_risk_color($risk['calculated_risk']);
-        
+
         echo "<tr>\n";
         echo "<td align=\"left\" width=\"50px\"><a href=\"../management/view.php?id=" . $escaper->escapeHtml(convert_id($risk['id'])) . "\">" . $escaper->escapeHtml(convert_id($risk['id'])) . "</a></td>\n";
         echo "<td align=\"left\" width=\"300px\">" . $escaper->escapeHtml($risk['subject']) . "</td>\n";
@@ -8974,7 +8974,7 @@ function get_risk_teams_table()
 
     // Set the current team to empty
     $current_team = "";
-    
+
     // For each team
     foreach ($risks as $risk)
     {
@@ -9679,8 +9679,8 @@ function get_project_tabs($status, $template_group_id="")
     if ($status == 1)
     {
         array_unshift($projects, ['value' => 0, 'name' => $escaper->escapeHtml($lang['UnassignedRisks']), 'status' => 1]);
-    } 
-    
+    }
+
     $index = 0;
     $str = "";
     $row_width = "1301";
@@ -9744,7 +9744,7 @@ function get_project_tabs($status, $template_group_id="")
                 $priority = $index;
                 $edit_link = '<a href="javascript:void(0);" class="project-block--edit pull-right" data-id="'.$escaper->escapeHtml($id).'" data-name="'.$name.'"><i class="fa fa-edit"></i></a>';
             }
-            
+
             // Get count of risks for this project
             $count = count($risks);
 
@@ -9773,7 +9773,7 @@ function get_project_tabs($status, $template_group_id="")
                                     $str .= '<div class="project-block--field pull-left">'. $data_classification .'</div>';
                                 break;
                             }
-                        } 
+                        }
                         else {
                             $custom_field_count++;
                             $text = get_plan_custom_field_name_by_row_id($field, $id, "project");
@@ -9985,7 +9985,7 @@ function management_review($risk_id, $mgmt_review, $next_review, $is_html = true
             $text = $lang['PASTDUE'];
         }
     }
-    
+
     if($is_html)
     {
         return $html;
@@ -10091,14 +10091,14 @@ function get_value_by_name($table, $name, $return_name = false)
 function get_name_by_value($table, $value, $default = "", $use_id = false)
 {
     global $tables_where_name_is_encrypted;
-    
+
     $global_name_key = "name_by_value_".$table.$value;
-    
+
     // If this query was already run, get name from cache
     if(isset($GLOBALS[$global_name_key]))
     {
         $name = $GLOBALS[$global_name_key];
-        
+
         // If name is not null, return cache value
         if($name !== null)
         {
@@ -10110,7 +10110,7 @@ function get_name_by_value($table, $value, $default = "", $use_id = false)
             return $default;
         }
     }
-    // If this is first, run query to get name 
+    // If this is first, run query to get name
     else
     {
         // Open the database connection
@@ -10137,16 +10137,16 @@ function get_name_by_value($table, $value, $default = "", $use_id = false)
             // Return that value
             else
                 $name = $array[0]['name'];
-                
+
             $GLOBALS[$global_name_key] = $name;
         }
         // Otherwise, return an empty string
-        else 
+        else
         {
             $name = $default;
             $GLOBALS[$global_name_key] = null;
         }
-        
+
         return $name;
     }
 }
@@ -10469,7 +10469,7 @@ function next_review($risk_level, $id, $next_review, $html = true, $review_level
         if ($next_review != $lang['PASTDUE'] && (strtotime($next_review->format('Y-m-d')) + 24*3600) > time())
         {
             $date_format = $return_standard_format ? 'Y-m-d' : get_default_date_format();
-            
+
             $text = $next_review->format($date_format);
         }
         else $text = $lang['PASTDUE'];
@@ -10775,9 +10775,9 @@ function get_audit_trail($id = NULL, $days = 7, $log_type=NULL)
     {
         // Open the database connection
         $db = db_open();
-        
-        $query = " 
-            SELECT t1.timestamp, t1.message, t1.log_type, t1.user_id, t2.name user_fullname 
+
+        $query = "
+            SELECT t1.timestamp, t1.message, t1.log_type, t1.user_id, t2.name user_fullname
             FROM audit_log t1
                 LEFT JOIN user t2 ON t1.user_id=t2.value
         ";
@@ -10849,7 +10849,7 @@ function get_audit_trail($id = NULL, $days = 7, $log_type=NULL)
 
         // Close the database connection
         db_close($db);
-        
+
         foreach ($logs as &$log)
         {
             $log['message'] = try_decrypt($log['message']);
@@ -10864,7 +10864,7 @@ function get_audit_trail($id = NULL, $days = 7, $log_type=NULL)
         // Return false
         return [];
     }
-    
+
 }
 
 /*******************************
@@ -11011,15 +11011,15 @@ function update_mitigation($risk_id, $post)
     $stmt->bindParam(":mitigation_percent", $mitigation_percent, PDO::PARAM_INT);
 //    $stmt->bindParam(":mitigation_controls", $mitigation_controls, PDO::PARAM_STR, 500);
     $stmt->execute();
-    
+
     // Save mitigation controls
     $mitigation_id = get_mitigation_id($id);
     save_mitigation_controls($mitigation_id, $mitigation_controls, $post);
-        
+
     // Save mitigation teams
     save_junction_values("mitigation_to_team", "mitigation_id", $mitigation_id, "team_id", $mitigation_team);
 
-        
+
     // If notification is enabled
     if (notification_extra())
     {
@@ -11201,7 +11201,7 @@ function get_reviews($risk_id, $template_group_id="")
  ****************************/
 function latest_version($param) {
     $latest_versions = latest_versions();
-    
+
     if (isset($latest_versions[$param]))
         return $latest_versions[$param];
     else
@@ -11211,7 +11211,7 @@ function latest_version($param) {
 /****************************************************************************
  * FUNCTION: LATEST VERSIONS                                                *
  * Gets the list of the latest versions and caches it, so if it's needed    *
- * multiple times in the same request it will still only be loaded once     * 
+ * multiple times in the same request it will still only be loaded once     *
  ****************************************************************************/
 function latest_versions() {
 
@@ -11221,7 +11221,7 @@ function latest_versions() {
 
     // Url for SimpleRisk current versions
     if (defined('UPDATES_URL'))
-    {   
+    {
         $url = UPDATES_URL . '/releases.xml';
     }
     else $url = 'https://updates.simplerisk.com/releases.xml';
@@ -11250,7 +11250,7 @@ function latest_versions() {
 
     // If we were unable to connect to the URL
     if($return_code !== 200)
-    {           
+    {
         write_debug_log("SimpleRisk was unable to connect to " . $url);
 
         // Return 0 for the latest versions
@@ -11368,7 +11368,7 @@ function write_log($risk_id, $user_id, $message, $log_type="risk")
     {
         $user_id = 0;
     }
-    
+
     $user_id = (int)$user_id;
 
     // Open the database connection
@@ -11429,7 +11429,7 @@ function get_announcements()
     $announcements = "<ul>\n";
 
     if (defined('UPDATES_URL'))
-    {   
+    {
         $announcement_file = file(UPDATES_URL . '/announcements.xml');
     }
     else $announcement_file = file('https://updates.simplerisk.com/announcements.xml');
@@ -11672,7 +11672,7 @@ function api_extra()
     if(isset($GLOBALS['api_extra'])){
         return $GLOBALS['api_extra'];
     }
-    
+
     $setting = get_setting('api');
 
     // If the setting is not empty
@@ -11698,7 +11698,7 @@ function assessments_extra()
 {
     if(isset($GLOBALS['assessments_extra'])){
         return $GLOBALS['assessments_extra'];
-    }   
+    }
 
     $setting = get_setting('assessments');
 
@@ -11712,7 +11712,7 @@ function assessments_extra()
             $GLOBALS['assessments_extra'] = true;
         }
         else $GLOBALS['assessments_extra'] = false;
-    }   
+    }
     else $GLOBALS['assessments_extra'] = false;
 
     return $GLOBALS['assessments_extra'];
@@ -11779,8 +11779,8 @@ function governance_extra()
 {
     if(isset($GLOBALS['governance_extra'])){
         return $GLOBALS['governance_extra'];
-    }   
-    
+    }
+
     $setting = get_setting('governance');
 
     // If the setting is not empty
@@ -11806,7 +11806,7 @@ function governance_extra()
 function advanced_search_extra() {
     if(isset($GLOBALS['advanced_search_extra'])){
         return $GLOBALS['advanced_search_extra'];
-    }   
+    }
 
     $setting = get_setting('advanced_search');
 
@@ -11952,7 +11952,7 @@ function encryption_extra()
     if(isset($GLOBALS['encryption_extra'])){
         return $GLOBALS['encryption_extra'];
     }
-    
+
     $setting = get_setting('encryption');
 
     // If the setting is not empty
@@ -12304,7 +12304,7 @@ function supporting_documentation($id, $mode = "view", $view_type = 1)
                 <div class="file-uploader">
                 <script>
                     var max_upload_size = ' . $escaper->escapeJs(get_setting('max_upload_size', 0)) . ';
-                    var fileTooBigMessage = "' . $escaper->escapeJs($lang['FileIsTooBigToUpload']) . '"; 
+                    var fileTooBigMessage = "' . $escaper->escapeJs($lang['FileIsTooBigToUpload']) . '";
                 </script>
                 <label for="file-upload" class="btn active-textfield">Choose File</label> <span class="file-count-html">'.$count.' Added</span>
                     <ul class="exist-files">
@@ -12416,7 +12416,7 @@ function delete_risk($risk_id)
     $stmt = $db->prepare("DELETE FROM `risks` WHERE `id`=:id;");
     $stmt->bindParam(":id", $risk_id, PDO::PARAM_INT);
     $return = $stmt->execute();
-        
+
     // Remove the risk scoring history
     $stmt = $db->prepare("DELETE FROM `risk_scoring_history` WHERE `risk_id`=:id;");
     $stmt->bindParam(":id", $risk_id, PDO::PARAM_INT);
@@ -12925,7 +12925,7 @@ function update_risk_status($risk_id, $status)
             set_alert(true, "bad", $lang['NoPermissionForClosingRisks']);
             return;
         }
-        
+
     } else {
         $stmt = $db->prepare("UPDATE risks SET `status`=:status WHERE `id`=:id");
         $stmt->bindParam(":status", $status, PDO::PARAM_STR, 50);
@@ -13408,12 +13408,12 @@ function _lang($__key, $__params=array(), $__escape=true){
 
     $__return = (string)$lang[$__key];
 
-    // Have to sort the keys from longest to shortest to make sure not replacing 
+    // Have to sort the keys from longest to shortest to make sure not replacing
     // $user instead of $username when encountering the pattern of {$username}
     uksort($__params, function ($b, $a) {
         return (strlen($a) == strlen($b) ? strcmp($a, $b) : strlen($a) - strlen($b));
     });
-    
+
     foreach($__params as $key => $value) {
 
         // making sure it's not null as the str_replace() function doesn't accept null
@@ -13562,10 +13562,10 @@ function get_scoring_histories($risk_id = null)
 
             // Get the separation query string
             $separation_query = get_user_teams_query("b");
-            
+
             $sql = "SELECT a.risk_id+1000 as risk_id, a.calculated_risk, a.last_update FROM `risk_scoring_history` a JOIN risks b ON a.risk_id=b.id LEFT JOIN risk_to_team rtt on b.id=rtt.risk_id LEFT JOIN risk_to_additional_stakeholder rtas ON b.id=rtas.risk_id WHERE a.risk_id=:risk_id AND {$separation_query} GROUP BY a.id ORDER BY a.last_update";
         }
-        
+
 
         $stmt = $db->prepare($sql);
         $stmt->bindParam(":risk_id", $risk_id, PDO::PARAM_INT);
@@ -13638,11 +13638,11 @@ function get_residual_scoring_histories($risk_id = null)
 
             // Get the separation query string
             $separation_query = get_user_teams_query("b");
-            
+
             // Get risk scoring histories by risk id
             $sql = "SELECT a.risk_id+1000 as risk_id, a.residual_risk, a.last_update FROM `residual_risk_scoring_history` a JOIN risks b ON a.risk_id=b.id LEFT JOIN risk_to_team rtt on b.id=rtt.risk_id LEFT JOIN risk_to_additional_stakeholder rtas ON b.id=rtas.risk_id WHERE a.risk_id=:risk_id AND {$separation_query} GROUP BY a.id ORDER BY a.last_update";
         }
-        
+
         $stmt = $db->prepare($sql);
         $stmt->bindParam(":risk_id", $risk_id, PDO::PARAM_INT);
         $stmt->execute();
@@ -13830,7 +13830,7 @@ function get_risks_score_averages($time = "day")
 
         $query = "SELECT {$select_time_query}, SUM(b.calculated_risk) calculated_risk, count(a.id) number_of_risks, IF(a.status='Closed', 0, 1) status
             FROM (SELECT a.* FROM `risks` a LEFT JOIN `risk_to_team` rtt on a.id=rtt.risk_id LEFT JOIN `risk_to_additional_stakeholder` rtas on a.id=rtas.risk_id WHERE {$separation_query} GROUP BY a.id) a INNER JOIN `risk_scoring_history` b ON a.id=b.risk_id ";
-            
+
     }
 
     $query .= $groupby_query;
@@ -14042,7 +14042,7 @@ function get_names_by_values($table, $values, $limit=4, $escape=true, $force_id=
     $should_decrypt = in_array($table, $tables_where_name_is_encrypted);
 
     $results_to_display = $limit ? array_slice($results, 0, $limit) : $results;
-    
+
     foreach($results_to_display as $result){
         // Try decrypt if necessary
         if ($should_decrypt)
@@ -14485,7 +14485,7 @@ function windows_delete_dir($dir)
 function windows_delete_file($file)
 {
     $file = str_replace("/", "\\", $file);
-    
+
     // Delete a file in Windows
     $success = exec("DEL /F/Q \"" . $file . "\"", $lines, $deleteError);
 
@@ -14822,9 +14822,9 @@ function delete_role($role_id) {
  * FUNCTION: SAVE ROLE AND RESPONSIBILITES *
  *******************************************/
 function save_role_responsibilities($role_id, $admin, $default, $responsibilities) {
-    
+
     $db = db_open();
-    
+
     // Store if the admin status of the role is changed
     $stmt = $db->prepare("SELECT `admin` FROM `role` WHERE `value` = :role_id;");
     $stmt->bindParam(":role_id", $role_id, PDO::PARAM_INT);
@@ -14852,7 +14852,7 @@ function save_role_responsibilities($role_id, $admin, $default, $responsibilitie
     }
 
     $current_responsibilities = get_responsibilites_by_role_id($role_id);
-    
+
     if (save_junction_values('role_responsibilities', 'role_id', $role_id, 'permission_id', $responsibilities)) {
         // Calculate what permissions are removed from the role and what permissions are added
         $responsibilities_to_remove = array_diff($current_responsibilities, $responsibilities);
@@ -14926,14 +14926,14 @@ function get_role($role_id)
 {
     // Open the database connection
     $db = db_open();
-    
+
     $stmt = $db->prepare("SELECT `value`, `name`, `admin`, (`r`.`default` IS NOT NULL) AS 'default' FROM `role` r WHERE `r`.`value`=:role_id");
     $stmt->bindParam(":role_id", $role_id, PDO::PARAM_INT);
     $stmt->execute();
-    
+
     // Get responsibilites
     $role = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
     if ($role) {
         $role = $role[0];
         $role['responsibilities'] = get_responsibilites_by_role_id($role_id);
@@ -14943,7 +14943,7 @@ function get_role($role_id)
 
     // Close the database connection
     db_close($db);
-    
+
     return $role;
 }
 
@@ -15121,7 +15121,7 @@ function add_security_headers($x_frame_options = true, $x_xss_protection = true,
 		header("X-Frame-Options: DENY");
 	}
 
-	// If we want to send a X-XSS-Protection header 
+	// If we want to send a X-XSS-Protection header
 	if ($x_xss_protection)
 	{
 		header("X-XSS-Protection: 1; mode=block");
@@ -15276,7 +15276,7 @@ function add_impact()
     $stmt->bindParam(":name", $name, PDO::PARAM_STR);
     $stmt->bindParam(":value", $value, PDO::PARAM_INT);
     $stmt->execute();
-    
+
     // Close the database connection
     db_close($db);
 
@@ -15284,9 +15284,9 @@ function add_impact()
 
     $new_likelihood_value = get_likelihoods_count();
     $new_impact_value = get_impacts_count();
-    
+
     update_impact_likelihood( $old_impact_value, $new_impact_value, $old_likelihood_value, $new_likelihood_value );
-    
+
     return $stmt->rowCount();
 }
 
@@ -15303,27 +15303,27 @@ function delete_impact()
     $stmt = $db->prepare("SELECT t1.value, t1.name FROM `impact` t1 JOIN (SELECT MAX(value) as max_value FROM `impact`) t2 WHERE t1.value=t2.max_value;");
     $stmt->execute();
     $array = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     if($array)
     {
         if( $array['value'] == 1 ){
-            
+
         } else {
             $old_likelihood_value = get_likelihoods_count();
             $old_impact_value = get_impacts_count();
-            
-            // Delete a impact value            
+
+            // Delete a impact value
             $stmt = $db->prepare("DELETE FROM `impact` WHERE value=:value;");
             $stmt->bindParam(":value", $array['value'], PDO::PARAM_INT);
             $stmt->execute();
             write_log(1000, $_SESSION['uid'], "An impact named \"".$escaper->escapeHtml($array['name'])."\" was deleted by the \"" . $_SESSION['user'] . "\" user.");
-            
+
             $new_likelihood_value = get_likelihoods_count();
             $new_impact_value = get_impacts_count();
-            
+
             update_impact_likelihood( $old_impact_value, $new_impact_value, $old_likelihood_value, $new_likelihood_value );
         }
-        
+
     }
 
     // Close the database connection
@@ -15338,10 +15338,10 @@ function delete_impact()
 function add_likelihood()
 {
     global $lang, $escaper;
- 
+
     $old_likelihood_value = get_likelihoods_count();
     $old_impact_value = get_impacts_count();
-    
+
     // Open the database connection
     $db = db_open();
 
@@ -15385,22 +15385,22 @@ function delete_likelihood()
     $array = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if($array)
-    {       
+    {
         if( $array['value'] == 1 ){
-            
+
         } else {
             $old_likelihood_value = get_likelihoods_count();
             $old_impact_value = get_impacts_count();
-            
+
             // Delete a likelihood value
             $stmt = $db->prepare("DELETE FROM `likelihood` WHERE value=:value;");
             $stmt->bindParam(":value", $array['value'], PDO::PARAM_INT);
             $stmt->execute();
             write_log(1000, $_SESSION['uid'], "An likelihood named \"".$escaper->escapeHtml($array['name'])."\" was deleted by the \"" .$_SESSION['user'] . "\" user.");
-            
+
             $new_likelihood_value = get_likelihoods_count();
             $new_impact_value = get_impacts_count();
-            
+
             update_impact_likelihood( $old_impact_value, $new_impact_value, $old_likelihood_value, $new_likelihood_value );
         }
     }
@@ -15428,7 +15428,7 @@ function is_admin($id = false)
         $db = db_open();
 
         $stmt = $db->prepare("
-            SELECT 
+            SELECT
                 `admin`
             FROM
                 `user`
@@ -15441,7 +15441,7 @@ function is_admin($id = false)
         $admin = $stmt->fetchColumn();
 
         db_close($db);
-        
+
         return $admin !== null && $admin === '1';
     }
 }
@@ -15452,10 +15452,10 @@ function is_admin($id = false)
 function upload_compliance_files($test_audit_id, $ref_type, $files, $version=1)
 {
     $user = $_SESSION['uid'];
-    
+
     // Open the database connection
     $db = db_open();
-    
+
     // Get the list of allowed file types
     $stmt = $db->prepare("SELECT `name` FROM `file_types`");
     $stmt->execute();
@@ -15477,7 +15477,7 @@ function upload_compliance_files($test_audit_id, $ref_type, $files, $version=1)
     {
         $allowed_extensions[] = $row['name'];
     }
-    
+
     $errors = array();
 
     $file_ids = [];
@@ -15485,7 +15485,7 @@ function upload_compliance_files($test_audit_id, $ref_type, $files, $version=1)
     foreach($files['name'] as $key => $name){
         if(!$name)
             continue;
-            
+
         $file = array(
             'name' => $files['name'][$key],
             'type' => $files['type'][$key],
@@ -15493,9 +15493,9 @@ function upload_compliance_files($test_audit_id, $ref_type, $files, $version=1)
             'size' => $files['size'][$key],
             'error' => $files['error'][$key],
         );
-        
+
         if (strlen($file['name']) <= 100) {
-        
+
             // If the file type is appropriate
             if (in_array($file['type'], $allowed_types))
             {
@@ -15504,7 +15504,7 @@ function upload_compliance_files($test_audit_id, $ref_type, $files, $version=1)
                 {
                 // Get the maximum upload file size
                 $max_upload_size = get_setting("max_upload_size");
-    
+
                 // If the file size is less than max size
                 if ($file['size'] < $max_upload_size)
                 {
@@ -15513,10 +15513,10 @@ function upload_compliance_files($test_audit_id, $ref_type, $files, $version=1)
                     {
                         // Read the file
                         $content = fopen($file['tmp_name'], 'rb');
-    
+
                         // Create a unique file name
                         $unique_name = generate_token(30);
-    
+
                         // Store the file in the database
                         $stmt = $db->prepare("INSERT compliance_files (ref_id, ref_type, name, unique_name, type, size, user, content, version) VALUES (:ref_id, :ref_type, :name, :unique_name, :type, :size, :user, :content, :version)");
                         $stmt->bindParam(":ref_id", $test_audit_id, PDO::PARAM_INT);
@@ -15529,7 +15529,7 @@ function upload_compliance_files($test_audit_id, $ref_type, $files, $version=1)
                         $stmt->bindParam(":content", $content, PDO::PARAM_LOB);
                         $stmt->bindParam(":version", $version, PDO::PARAM_INT);
                         $stmt->execute();
-                        
+
                         $file_ids[] = $db->lastInsertId();
                     }
                     // Otherwise
@@ -15573,7 +15573,7 @@ function upload_compliance_files($test_audit_id, $ref_type, $files, $version=1)
 
     // Close the database connection
     db_close($db);
-    
+
     if($errors){
         return [false, [], $errors];
     }else{
@@ -15586,10 +15586,10 @@ function upload_compliance_files($test_audit_id, $ref_type, $files, $version=1)
 function upload_exception_files($test_audit_id, $ref_type, $files, $version=1)
 {
     $user = $_SESSION['uid'];
-    
+
     // Open the database connection
     $db = db_open();
-    
+
     // Get the list of allowed file types
     $stmt = $db->prepare("SELECT `name` FROM `file_types`");
     $stmt->execute();
@@ -15611,7 +15611,7 @@ function upload_exception_files($test_audit_id, $ref_type, $files, $version=1)
     {
         $allowed_extensions[] = $row['name'];
     }
-    
+
     $errors = array();
 
     $file_ids = [];
@@ -15619,7 +15619,7 @@ function upload_exception_files($test_audit_id, $ref_type, $files, $version=1)
     foreach($files['name'] as $key => $name){
         if(!$name)
             continue;
-            
+
         $file = array(
             'name' => $files['name'][$key],
             'type' => $files['type'][$key],
@@ -15627,9 +15627,9 @@ function upload_exception_files($test_audit_id, $ref_type, $files, $version=1)
             'size' => $files['size'][$key],
             'error' => $files['error'][$key],
         );
-        
+
         if (strlen($file['name']) <= 100) {
-        
+
             // If the file type is appropriate
             if (in_array($file['type'], $allowed_types))
             {
@@ -15638,7 +15638,7 @@ function upload_exception_files($test_audit_id, $ref_type, $files, $version=1)
                 {
                 // Get the maximum upload file size
                 $max_upload_size = get_setting("max_upload_size");
-    
+
                 // If the file size is less than max size
                 if ($file['size'] < $max_upload_size)
                 {
@@ -15647,10 +15647,10 @@ function upload_exception_files($test_audit_id, $ref_type, $files, $version=1)
                     {
                         // Read the file
                         $content = fopen($file['tmp_name'], 'rb');
-    
+
                         // Create a unique file name
                         $unique_name = generate_token(30);
-    
+
                         // Store the file in the database
                         $stmt = $db->prepare("INSERT compliance_files (ref_id, ref_type, name, unique_name, type, size, user, content, version) VALUES (:ref_id, :ref_type, :name, :unique_name, :type, :size, :user, :content, :version)");
                         $stmt->bindParam(":ref_id", $test_audit_id, PDO::PARAM_INT);
@@ -15663,7 +15663,7 @@ function upload_exception_files($test_audit_id, $ref_type, $files, $version=1)
                         $stmt->bindParam(":content", $content, PDO::PARAM_LOB);
                         $stmt->bindParam(":version", $version, PDO::PARAM_INT);
                         $stmt->execute();
-                        
+
                         $file_ids[] = $db->lastInsertId();
                     }
                     // Otherwise
@@ -15707,7 +15707,7 @@ function upload_exception_files($test_audit_id, $ref_type, $files, $version=1)
 
     // Close the database connection
     db_close($db);
-    
+
     if($errors){
         return [false, [], $errors];
     }else{
@@ -15726,13 +15726,13 @@ function get_user_teams($user_id) {
         // If the Organizational Hierarchy is activated only those teams should be returned that the user is assigned to
         // AND in the user's selected business unit. Unless it's an Admin user. Admins can see eerything.
         require_once(realpath(__DIR__ . '/../extras/organizational_hierarchy/index.php'));
-        
+
         return get_teams_of_user_from_selected_business_unit($user_id, false);
     }
-        
+
     // Open the database connection
     $db = db_open();
-    
+
     $stmt = $db->prepare("
         SELECT
             distinct `t`.`value`
@@ -15788,7 +15788,7 @@ function get_all_users()
 function get_users_of_team($team_id) {
     // Commented implementation as the function is not used yet
     // and it wouldn't work properly with the Organizational Hierarchy extra
-    
+
     /*// Open the database connection
     $db = db_open();
 
@@ -15801,7 +15801,7 @@ function get_users_of_team($team_id) {
             INNER JOIN `user_to_team` u2t ON `u2t`.`user_id` = `u`.`value`
         WHERE
             `u`.`admin` = 1 OR `u2t`.`team_id`=:team_id
-        GROUP BY 
+        GROUP BY
             `u`.`value`;
     ");
     $stmt->bindParam(":team_id", $team_id, PDO::PARAM_STR);
@@ -15957,7 +15957,7 @@ function get_all_team_values()
     // Close the database connection
     db_close($db);
 
-    // Return the list of teams 
+    // Return the list of teams
     return $teams;
 }
 
@@ -15968,15 +15968,15 @@ function get_all_team_values()
 function get_all_teams() {
     // Open the database connection
     $db = db_open();
-    
+
     // Query the database
     $stmt = $db->prepare("SELECT * FROM `team` ORDER BY `name`;");
     $stmt->execute();
     $teams = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
     // Close the database connection
     db_close($db);
-    
+
     // Return the list of teams
     return $teams;
 }
@@ -16036,9 +16036,9 @@ function get_team_query_string($user_teams, $rename = false)
             else $string .= "FIND_IN_SET('{$team}', team) OR " ;
         }
     }
-    
+
     $string .= " 0 ";
-    
+
     // Return the string
     return $string;
 }
@@ -16048,24 +16048,24 @@ function get_team_query_string($user_teams, $rename = false)
  * FUNCTION: UPDATE IMPACT LIKELIHOOD *
  **************************************/
 function update_impact_likelihood( $old_impact_value, $new_impact_value, $old_likelihood_value, $new_likelihood_value )
-{   
+{
     global $lang, $escaper;
 
     // Open the database connection
     $db = db_open();
-    
+
     $impact_value = $new_impact_value * ($new_impact_value / $old_impact_value);
     $stmt = $db->prepare("UPDATE `risk_scoring` SET `CLASSIC_impact` = ROUND(CLASSIC_impact * (:new_impact_value / :old_impact_value)) , `CLASSIC_likelihood` = ROUND(CLASSIC_likelihood * (:new_likelihood_value / :old_likelihood_value));");
     $stmt->bindParam(":old_impact_value", $old_impact_value, PDO::PARAM_INT);
     $stmt->bindParam(":new_impact_value", $new_impact_value, PDO::PARAM_INT);
     $stmt->bindParam(":old_likelihood_value", $old_likelihood_value, PDO::PARAM_INT);
     $stmt->bindParam(":new_likelihood_value", $new_likelihood_value, PDO::PARAM_INT);
-    
+
     $stmt->execute();
 
     // Close the database connection
     db_close($db);
-    
+
     return true;
 }
 
@@ -16319,7 +16319,7 @@ function add_file_type($name, $extension)
     $risk_id = 1000;
     $message = "A new upload file type of \"" . $name . "\" for extension \"" . $extension . "\" was added by the \"" . $_SESSION['user'] . "\" user.";
     write_log($risk_id, $_SESSION['uid'], $message);
-    
+
     // Close the database connection
     db_close($db);
 
@@ -16387,7 +16387,7 @@ function save_contributing_risks($subjects, $weights, $existing_subjects=[], $ex
     foreach($weights as $weight){
         $weight_sum += $weight;
     }
-    
+
     foreach($existing_weights as $existing_weight){
         $weight_sum += $existing_weight;
     }
@@ -16406,7 +16406,7 @@ function save_contributing_risks($subjects, $weights, $existing_subjects=[], $ex
         // Save contributing risk
         update_contributing_risk($id, $existing_subjects[$id], $existing_weights[$id]);
     }
-    
+
     // Delete contributing risks
     $existing_ids = array_keys($existing_weights);
     // Open the database connection
@@ -16424,7 +16424,7 @@ function save_contributing_risks($subjects, $weights, $existing_subjects=[], $ex
     $stmt->execute();
     // Close the database connection
     db_close($db);
-    
+
     // Create new contributing risks
     foreach($weights as $key => $weight){
         // Add contributing risk
@@ -16441,7 +16441,7 @@ function save_contributing_risks($subjects, $weights, $existing_subjects=[], $ex
 function get_contributing_risks()
 {
     global $lang, $escaper;
-    
+
     // Open the database connection
     $db = db_open();
 
@@ -16786,10 +16786,10 @@ if (!function_exists('hash_equals')) {
 
     /**
      * Timing attack safe string comparison
-     * 
+     *
      * Compares two strings using the same time whether they're equal or not.
      * This function should be used to mitigate timing attacks; for instance, when testing crypt() password hashes.
-     * 
+     *
      * @param string $known_string The string of known length to compare against
      * @param string $user_string The user-supplied string
      * @return boolean Returns TRUE when the two strings are equal, FALSE otherwise.
@@ -17231,7 +17231,7 @@ function getTagsOfType($type) {
             INNER JOIN `tags_taggees` tt ON `tt`.`tag_id` = `t`.`id`
         WHERE
             `tt`.`type` = :type
-        GROUP BY 
+        GROUP BY
             t.id
         ORDER BY `t`.`tag` ASC;
     ");
@@ -17249,19 +17249,19 @@ function getTagsOfType($type) {
  * Gets tags assigned to list of taggee types.  *
  ************************************************/
 function getTagsOfTypes($types = []) {
-    
+
     global $tag_types;
-    
+
     // Making sure we only accept the types we can work with
     $types = array_intersect($types, $tag_types);
-    
+
     // If there's no type left
     if (empty($types)) {
         return [];
     }
-        
+
     $db = db_open();
-    
+
     //Load tags currently assigned to a type of taggee
     $stmt = $db->prepare("
         SELECT
@@ -17275,12 +17275,12 @@ function getTagsOfTypes($types = []) {
             t.id
         ORDER BY `t`.`tag` ASC;
     ");
-    
+
     $stmt->execute();
     $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
     db_close($db);
-    
+
     return $tags;
 }
 
@@ -17491,7 +17491,7 @@ function getTeamsOfItem($item_id, $type, $names=false) {
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     else
         $result = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
-    
+
     db_close($db);
 
     return $result;
@@ -17528,7 +17528,7 @@ function getItemsOfTeam($team_id, $type, $full=false) {
     // Assemble the query
     $sql = "
         SELECT
-            `item`." . 
+            `item`." .
             ($full ?  "*, ({$teams_query}) as teams" : "`{$item_id_field_name}`") . "
         FROM
             `{$item_table_name}` item
@@ -17802,7 +17802,7 @@ function updateItemsOfTeam($team_id, $type, $items) {
             $params[$key] = $item_id;
             $items_to_add_values[] = "(:team_id, {$key}, :type)";
         }
-        
+
         $items_to_add_values = implode(", ", $items_to_add_values);
         // We just use the id to create
         // the connection between the item and the team in the junction table
@@ -17859,7 +17859,7 @@ function updateItemsOfTeam($team_id, $type, $items) {
 }
 
 function is_valid_impact_and_likelihood($impact, $likelihood) {
-    
+
     $db = db_open();
 
     $stmt = $db->prepare("
@@ -17875,11 +17875,11 @@ function is_valid_impact_and_likelihood($impact, $likelihood) {
     $stmt->bindParam(":impact", $impact, PDO::PARAM_INT);
     $stmt->bindParam(":likelihood", $likelihood, PDO::PARAM_INT);
     $stmt->execute();
-    
+
     $result = $stmt->fetch(PDO::FETCH_COLUMN, 0);
-    
+
     db_close($db);
-    
+
     return boolval($result);
 }
 
@@ -17900,7 +17900,7 @@ function set_stored_risk_score($impact, $likelihood, $value, $update_risks = fal
     $stmt->bindParam(":likelihood", $likelihood, PDO::PARAM_INT);
     $stmt->bindParam(":value", $value, PDO::PARAM_STR);
     $stmt->execute();
-    
+
     if ($update_risks) {
         // Get the list of all risks using the classic formula
         $stmt = $db->prepare("
@@ -17977,7 +17977,7 @@ function get_dynamic_saved_selections($user_id)
     // If the requesting user is an admin then return all the saved selections
     // When returning other users' saved selections add the users' name to the saved selections' names
     // Results are ordered to have the user's own saved selections first,
-    // then they're ordered to display private saved selections first then the publics 
+    // then they're ordered to display private saved selections first then the publics
     $stmt = $db->prepare("
         SELECT
         	`dss`.`value`,
@@ -18023,7 +18023,7 @@ function get_dynamic_saved_selection($value)
 
     // Get dynamic saved selections
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     // Close the database connection
     db_close($db);
 
@@ -18067,7 +18067,7 @@ function check_closed_risk_by_id($id)
 
     // Close the database connection
     db_close($db);
-    
+
     if($result){
         return true;
     }else{
@@ -18080,7 +18080,7 @@ function check_closed_risk_by_id($id)
 */
 function is_extra_installed($extra) {
     global $available_extras;
-    
+
     if (!in_array($extra, $available_extras))
         false;
 
@@ -18099,19 +18099,19 @@ function is_extra_installed($extra) {
 
         $need_update_app = false;
         $need_update_db = false;
-        
+
         // If the current version is not the latest
         if ($next_app_version != "") {
             $need_update_app = true;
         }
-        
+
         // If the app version is not the same as the database version
         if ($current_app_version != $db_version) {
             $need_update_db = true;
         } elseif ($need_update_app && $next_app_version != $db_version) {
             $need_update_db = true;
         }
-        
+
         // Check if there are update app or db version
         if($need_update_app || $need_update_db)
         {
@@ -18292,7 +18292,7 @@ function set_proxy_stream_context($method=null, $header=null, $content=null, $ss
             }
 
             write_debug_log("HTTP Context - Header: " . $http_context['header']);
-        }        
+        }
 
         // If the function was provided content
         if ($content)
@@ -18475,12 +18475,12 @@ function cleanup_after_delete($deleted_item_table) {
     $config = $junction_config[$deleted_item_table];
     // Getting the name of its id field
     $deleted_item_table_id_field = $config['id_field'];
-    
+
     $has_tags = isset($config['tag_type']) && !empty($config['tag_type']);
 
     // Iterating through the related junction tables
     foreach($config['junctions'] as $junction_table_name => $junction_deleted_item_id_field) {
-        
+
         // It's possible that there're tables that are only present when an extra is installed/enabled
         if (!table_exists($junction_table_name)) {
             continue;
@@ -18500,7 +18500,7 @@ function cleanup_after_delete($deleted_item_table) {
     }
 
     if ($has_tags) {
-        
+
         $tag_type = $config['tag_type'];
         // Clean up every tag junction entries that aren't tied to a value in the configued table
         // but make sure we're not deleting other types' junction entries
@@ -18515,7 +18515,7 @@ function cleanup_after_delete($deleted_item_table) {
                 AND `tt`.`type` = '{$tag_type}';
         ");
         $stmt->execute();
-        
+
         // Clean up every tags that aren't referenced by the junction table
         $stmt = $db->prepare("
             DELETE
@@ -18528,7 +18528,7 @@ function cleanup_after_delete($deleted_item_table) {
         ");
         $stmt->execute();
     }
-    
+
     db_close($db);
 }
 
@@ -18544,7 +18544,7 @@ function get_encoded_request_uri()
     {
         $uri .= "?" . http_build_query($_GET);
     }
-    
+
     return $uri;
 }
 /*****************************
@@ -18587,7 +18587,7 @@ function get_latest_app_version() {
     return $_SESSION['latest_version_app'];
 }
 
-function setup_favicon($path_to_root = "") {   
+function setup_favicon($path_to_root = "") {
 
     global $escaper;
 
@@ -18658,7 +18658,7 @@ function get_risk_catalogs()
         FROM `risk_catalog` rc
             LEFT JOIN `risk_grouping` rg ON `rc`.`grouping` = `rg`.`value`
             LEFT JOIN `risk_function` rf ON `rc`.`function` = `rf`.`value`
-        ORDER BY 
+        ORDER BY
             `rg`.`order`,
             `rc`.`order`;
     ");
@@ -18897,7 +18897,7 @@ function get_risk_status($risk_id){
     $stmt->bindParam(":id", $id, PDO::PARAM_INT);
     $stmt->execute();
     $risk = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     // Close the database connection
     db_close($db);
     $status = $risk?$risk["status"]:"";
@@ -18962,7 +18962,7 @@ function file_upload_error_message($error)
 function save_custom_risk_display_settings($field = "custom_plan_mitigation_display_settings", $data = [])
 {
     $data_str = json_encode($data);
-    
+
     // Open the database connection
     $db = db_open();
 
@@ -18979,17 +18979,17 @@ function save_custom_risk_display_settings($field = "custom_plan_mitigation_disp
 function get_user_name($user_id) {
     // Open the database connection
     $db = db_open();
-    
+
     // Query the database
     $stmt = $db->prepare("SELECT `name` FROM `user` WHERE `value` = :user_id;");
     $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
     $stmt->execute();
-    
+
     $name = $stmt->fetch(PDO::FETCH_COLUMN);
-    
+
     // Close the database connection
     db_close($db);
-    
+
     return $name;
 }
 
@@ -18998,10 +18998,10 @@ function get_user_name($user_id) {
  * Getting users with a permission, specified by the $permission_key    *
  ************************************************************************/
 function get_users_with_permission($permission_key) {
-    
+
     // Open the database connection
     $db = db_open();
-    
+
     if (organizational_hierarchy_extra()) {
         $stmt = $db->prepare("
             SELECT
@@ -19042,7 +19042,7 @@ function get_users_with_permission($permission_key) {
             WHERE
                 `u`.`enabled` = 1
                 AND `p`.`key` = :permission_key
-            GROUP BY 
+            GROUP BY
                 `u`.`value`
             ORDER BY
                 `u`.`name`;
@@ -19050,7 +19050,7 @@ function get_users_with_permission($permission_key) {
 
         $stmt->bindParam(":permission_key", $permission_key, PDO::PARAM_STR);
     }
-    
+
     $stmt->execute();
 
     // Store the list in the array
@@ -19058,7 +19058,7 @@ function get_users_with_permission($permission_key) {
 
     // Close the database connection
     db_close($db);
-    
+
     return $users;
 }
 
@@ -19088,13 +19088,13 @@ function refresh_file_encoding_issue_counts($type = 'all') {
     if (($type === 'questionnaire' || $type === 'all') && !$questionnaire_table_exists) {
         // Make sure there's no leftover data left in the settings table
         delete_setting("file_encoding_issues_count_questionnaire");
-        
+
         // If it's only for the questionnaire then there's nothing else to do here
         if ($type === 'questionnaire') {
             return;
         }
     }
-    
+
     if ($type === 'all') {
         $types = ['compliance', 'risk'];
         if ($questionnaire_table_exists) {
@@ -19133,7 +19133,7 @@ function refresh_file_encoding_issue_counts($type = 'all') {
                 update_or_insert_setting($setting_name, $count);
                 write_log(0, $_SESSION['uid'], _lang('EncodingIssueCountUpdated', ['type' => $type, 'old_count' => $old_count, 'count' => $count]), $log_type);
             }
-        } else { 
+        } else {
             // Or delete the setting if the issues were cleaned up
             delete_setting($setting_name);
             write_log(0, $_SESSION['uid'], _lang('EncodingIssueCleanedUp', ['type' => $type]), $log_type);
@@ -19144,7 +19144,7 @@ function refresh_file_encoding_issue_counts($type = 'all') {
 }
 
 function get_files_with_encoding_issues($type = 'risk', $order_column = 0, $order_dir = "asc", $offset = 0, $page_size = -1) {
-    
+
     $limit =  $page_size>0 ? " LIMIT {$offset}, {$page_size}" : "";
 
     $db = db_open();
@@ -19226,7 +19226,7 @@ function get_files_with_encoding_issues($type = 'risk', $order_column = 0, $orde
                 WHERE
                     `f`.`size` <> LENGTH(`f`.`content`)
                 ORDER BY {$order_column}
-            "; 
+            ";
         break;
         case 'questionnaire':
             $log_type = 'questionnaire';
@@ -19235,7 +19235,7 @@ function get_files_with_encoding_issues($type = 'risk', $order_column = 0, $orde
             } elseif ($order_column == 1) {
                 $order_column = "`type` {$order_dir}";
             } else $order_column = "`q`.`name` {$order_dir}, `t`.`id` ASC";
-            
+
             $sql = "
                 SELECT
                     `t`.`token`,
@@ -19253,7 +19253,7 @@ function get_files_with_encoding_issues($type = 'risk', $order_column = 0, $orde
             ";
         break;
     }
-    
+
     $stmt = $db->prepare("
         SELECT SQL_CALC_FOUND_ROWS t1.*
         FROM (
@@ -19262,13 +19262,13 @@ function get_files_with_encoding_issues($type = 'risk', $order_column = 0, $orde
         {$limit}
     ");
     $stmt->execute();
-    
+
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
     $stmt = $db->prepare("SELECT FOUND_ROWS();");
     $stmt->execute();
     $recordsTotal = $stmt->fetch()[0];
-    
+
     db_close($db);
 
     $setting_name = "file_encoding_issues_count_{$type}";
@@ -19288,9 +19288,9 @@ function get_files_with_encoding_issues($type = 'risk', $order_column = 0, $orde
 
 function display_file_encoding_issues($type) {
     global $lang, $escaper;
-    
+
     $tableID = "upload-encoding-issues-$type";
-    
+
     echo "
         <table id=\"{$tableID}\" width=\"100%\" class=\"risk-datatable table table-bordered table-striped table-condensed\">
             <thead>
@@ -19316,7 +19316,7 @@ function display_file_encoding_issues($type) {
             $data_list = ['name', 'type'];
         break;
     }
-    
+
     echo "
                     <th align='left' valign='top' width='20%'>".$escaper->escapeHtml($lang['FileName'])."</th>
                     <th align='left' valign='top' width='17%'></th>
@@ -19376,15 +19376,15 @@ function display_file_encoding_issues($type) {
                     }
                 ]
             });
-            
+
             // Add paginate options
             datatableInstance_{$type}.on('draw', function(e, settings){
                 $('.paginate_button.first').html('<i class=\"fa fa-chevron-left\"></i><i class=\"fa fa-chevron-left\"></i>');
                 $('.paginate_button.previous').html('<i class=\"fa fa-chevron-left\"></i>');
-                
+
                 $('.paginate_button.last').html('<i class=\"fa fa-chevron-right\"></i><i class=\"fa fa-chevron-right\"></i>');
                 $('.paginate_button.next').html('<i class=\"fa fa-chevron-right\"></i>');
-                
+
                 if (datatableInstance_{$type}.page() == 0) {
                     // Reload the page when no more issues left so the page load code can
                     // run the wrap-up logic
@@ -19396,7 +19396,7 @@ function display_file_encoding_issues($type) {
                         setTimeout(function(){datatableInstance_{$type}.page('previous').draw('page');}, 1);
                     }
                 }
-                
+
                 $('#{$tableID} tbody').off('click', 'button.confirm');
                 $('#{$tableID} tbody').on('click', 'button.confirm', function () {
                     var data = datatableInstance_{$type}.row($(this).closest('tr')).data();
@@ -19452,11 +19452,11 @@ function display_file_encoding_issues($type) {
                 datatableInstance_{$type}.draw();
                 $(this).addClass('current');
             });
-                
+
             // Page event
             $('body').on('click', '#{$tableID}_paginate span > .paginate_button', function(){
                 var index = $(this).attr('aria-controls').replace('DataTables_Table_', '');
-                
+
                 var oSettings =  datatableInstance_{$type}.settings();
                 if(oSettings[0]._iDisplayLength == -1){
                     $(this).parents(\".dataTables_wrapper\").find('#{$tableID}_wrapper .view-all').removeClass('current');
@@ -19470,7 +19470,7 @@ function display_file_encoding_issues($type) {
 
 function get_encoding_issue_file_info($type, $unique_name) {
     $db = db_open();
-    
+
     switch($type) {
         case 'compliance':
             $sql = "SELECT `id`, `ref_id`, `ref_type`, `version` FROM `compliance_files` WHERE `unique_name` = :unique_name;";
@@ -19486,11 +19486,11 @@ function get_encoding_issue_file_info($type, $unique_name) {
     $stmt = $db->prepare($sql);
     $stmt->bindParam(":unique_name", $unique_name, PDO::PARAM_STR);
     $stmt->execute();
-    
+
     $results = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     db_close($db);
-    
+
     return $results;
 }
 /***************************************************************************************
@@ -19535,9 +19535,9 @@ function get_table_value_by_id($table, $id)
     $stmt->execute();
 
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     db_close($db);
-    return $result?$result["name"]:"";    
+    return $result?$result["name"]:"";
 }
 /************************************
  * FUNCTION: ADD CONTRIBUTING RISKS *
@@ -19660,7 +19660,7 @@ function get_max_value($table, $field="value")
 global $change_audit_log_localization_config;
 $change_audit_log_localization_config = [
     'risk' => [],
-    
+
     'test' => [ // as fields returned by the get_framework_control_test_by_id() function
         'test_frequency' => 'TestFrequency',
         'last_date' => 'LastTestDate',
@@ -19677,7 +19677,7 @@ $change_audit_log_localization_config = [
         'tester_name' => 'Tester',
         'teams' => 'Teams',
     ],
-    
+
     'audit' => [ // as fields returned by the get_framework_control_test_audit_by_id() function
         'test_frequency' => 'TestFrequency',
         'last_date' => 'LastTestDate',
@@ -19743,13 +19743,13 @@ $change_audit_log_localization_config = [
 
 /**
  * Function: GET CHANGES
- * The function is used to get the list of changes of two objects(arrays) of `before` and `after` states 
+ * The function is used to get the list of changes of two objects(arrays) of `before` and `after` states
  * Return value is based on the return_type parameter's value.
  *      1: Returns a string in the format of "`{$field_name}` (`{$before}` => `{$after}`)"
  *      2: Return the differences in an array in the format of [{'<changed field's name>': {'from': '<original value>', 'to': <new value>}}, ...]
  *      3: Both of the above in the format of [String, Array]
- * 
- * Example response: 
+ *
+ * Example response:
  *      1: "`Audit Status` (`Evidence Submitted / Pending Review` => `Pending Evidence from Control Owner`), `Tester` (`Admin` => `Josh Sokol`)"
  *      2: [{'Audit Status': {'from': 'Evidence Submitted / Pending Review', 'to': Pending Evidence from Control Owner}}, {'Tester': {'from': 'Admin', 'to': Josh Sokol}}]
  *      3: [
@@ -20032,11 +20032,11 @@ function get_changes($type, $before, $after, $return_type = 1) {
     if ($return_type == 1) {
         return implode(', ', $diff_str);
     }
-    
+
     if ($return_type == 2) {
         return $diff_arr;
     }
-    
+
     if ($return_type == 3) {
         return [implode(', ', $diff_str), $diff_arr];
     }
@@ -20148,9 +20148,9 @@ function get_risk_subjects_by_ids($ids="", $limit=4, $escape=false, $separate="<
 * core of the management UI for CRUD functionality		*
 *********************************************************/
 function renderCRUDUI($tableConfig) {
-    
+
     global $lang, $escaper;
-    
+
     echo "
         <div class='row-fluid table-selection'>
             <b>{$escaper->escapeHtml($lang['Select'])}: </b>
@@ -20171,10 +20171,10 @@ function renderCRUDUI($tableConfig) {
     $text_delete = $escaper->escapeHtml($lang['Delete']);
     $text_deleteItem = $escaper->escapeHtml($lang['DeleteItemNamed']);
     $text_addItem = $escaper->escapeHtml($lang['AddNewItemNamed']);
-    
+
     $display = true;
     foreach ($tableConfig as $table => $config) {
-        
+
         echo "
                 <div class='hero-unit' data-table_name='{$table}' style='" . ($display ? 'display: block;' : 'display: none;' ) . "'>\n
                     <h4>" . $escaper->escapeHtml($lang[$config['headerKey']]) . ":</h4>\n
@@ -20186,14 +20186,14 @@ function renderCRUDUI($tableConfig) {
         echo "
                     &nbsp;&nbsp;<input type='submit' value='" . $text_delete . "' data-action='delete' />
                 </div>";
-        
+
         $display = false;
     }
     echo "
             </div>
         </div>
         <script>
-        
+
             function refreshDropdown(dropdown, data) {
                 dropdown.empty();
                 dropdown.append($('<option>', {
@@ -20207,14 +20207,14 @@ function renderCRUDUI($tableConfig) {
                     }));
                 });
             }
-                        
+
             function crudAction() {
-                        
+
                 var div = $(this).closest('div');
                 if (div) {
                     var tableName = div.data('table_name');
                     var action = $(this).data('action');
-                        
+
                     if (tableName && action) {
                         $.ajax({
                             type: 'POST',
@@ -20223,7 +20223,7 @@ function renderCRUDUI($tableConfig) {
                                 var d = new Object();
                                 d.table_name = tableName;
                                 d.action = action;
-                        
+
                                 switch(action) {
                                     case 'add':
                                         d.name = div.find('#' + tableName + '_new').val();
@@ -20236,19 +20236,19 @@ function renderCRUDUI($tableConfig) {
                                         d.id = div.find('#' + tableName + '_delete').val();
                                     break;
                                 }
-                        
+
                                 return d;
                             })(),
-                        
+
                             success: function(data){
                                 if(data.status_message){
                                     showAlertsFromArray(data.status_message);
                                 }
-                        
+
                                 // Empty input boxes
                                 div.find('#' + tableName + '_new').val('');
                                 div.find('#' + tableName + '_update_to').val('');
-                        
+
                                 // Refresh dropdowns
                                 refreshDropdown(div.find('#' + tableName + '_update_from'), data.data);
                                 refreshDropdown(div.find('#' + tableName + '_delete'), data.data);
@@ -20265,16 +20265,16 @@ function renderCRUDUI($tableConfig) {
                     }
                 }
             }
-                        
+
             $(document).ready(function() {
                 $('#crud-wrapper input[type=submit]').click(crudAction);
-                        
+
                 $('#table-sections').change(function(){
                     $('#crud-wrapper > .hero-unit').hide();
                     $('#crud-wrapper > [data-table_name=\'' + $(this).val()+'\']').show();
                 })
             });
-                        
+
         </script>";
 }
 
@@ -20285,18 +20285,18 @@ function renderCRUDUI($tableConfig) {
 * this function can execute the required CRUD action																*
 *********************************************************************************************************************/
 function processCRUDAction($tableConfig, $action, $tableKey, $id, $name) {
-    
+
     global $lang;
-    
+
     if (in_array($action, array('add', 'update', 'delete')) && array_key_exists($tableKey, $tableConfig)) {
-        
+
         if (in_array($action, array('add', 'update'))) {
             if (!isset($name) || !trim($name)) {
                 set_alert(true, "bad", $lang['YouNeedToSpecifyANameParameter']);
                 return false;
             } else {
                 $name = trim($name);
-                
+
                 $lengthLimit = $tableConfig[$tableKey]['lengthLimit'];
                 // Size check
                 if (strlen($name) > $lengthLimit) {
@@ -20326,7 +20326,7 @@ function processCRUDAction($tableConfig, $action, $tableKey, $id, $name) {
                     // Insert a new item
                     $result = add_name($tableConfig[$tableKey]['table'], $name);
                 }
-                
+
                 // Display an alert
                 if ($result) {
                     set_alert(true, "good", $lang['ANewItemWasAddedSuccessfully']);
@@ -20334,7 +20334,7 @@ function processCRUDAction($tableConfig, $action, $tableKey, $id, $name) {
                     set_alert(true, "bad", $lang['FailedToAddNewItem']);
                 }
             break;
-                        
+
             case "update":
                 // If the custom update function is set
                 if (array_key_exists('customUpdateFunction', $tableConfig[$tableKey])) {
@@ -20343,7 +20343,7 @@ function processCRUDAction($tableConfig, $action, $tableKey, $id, $name) {
                 } else {
                     $result = update_table($tableConfig[$tableKey]['table'], $name, $id);
                 }
-                
+
                 // Display an alert
                 if ($result) {
                     set_alert(true, "good", $lang['AnItemWasUpdatedSuccessfully']);
@@ -20351,7 +20351,7 @@ function processCRUDAction($tableConfig, $action, $tableKey, $id, $name) {
                     set_alert(true, "bad", $lang['FailedToUpdateItem']);
                 }
             break;
-                        
+
             case "delete":
                 // If the custom delete function is set
                 if (array_key_exists('customDeleteFunction', $tableConfig[$tableKey])) {
@@ -20360,7 +20360,7 @@ function processCRUDAction($tableConfig, $action, $tableKey, $id, $name) {
                 } else {
                     $result = delete_value($tableConfig[$tableKey]['table'], $id);
                 }
-                
+
                 // Display an alert
                 if ($result) {
                     set_alert(true, "good", $lang['AnItemWasDeletedSuccessfully']);
@@ -20369,7 +20369,7 @@ function processCRUDAction($tableConfig, $action, $tableKey, $id, $name) {
                 }
             break;
         }
-        
+
         // It's on purpose that it's getting the data by the key, so if it's a special table, then it can be treated as such
         return get_options_from_table($tableKey);
     } else {
@@ -20627,7 +20627,7 @@ function cvss2_base_vector_split($cvss_base_vector)
         }
         // Otherwise a CVSS base vector is not set
         else
-        {       
+        {
                 $cvss_array['AccessVector'] = "N";
                 $cvss_array['AccessComplexity'] = "L";
                 $cvss_array['Authentication'] = "N";
@@ -20820,7 +20820,7 @@ function add_project($project){
 
     // Open the database connection
     $db = db_open();
-    
+
     $stmt = $db->prepare("INSERT INTO `projects` (`name`, `due_date`, `consultant`, `business_owner`, `data_classification`) VALUES (:name, :due_date, :consultant, :business_owner, :data_classification)");
     $stmt->bindParam(":name", $name, PDO::PARAM_STR, 1000);
     $stmt->bindParam(":due_date", $due_date, PDO::PARAM_STR);
@@ -20828,12 +20828,12 @@ function add_project($project){
     $stmt->bindParam(":business_owner", $business_owner, PDO::PARAM_INT);
     $stmt->bindParam(":data_classification", $data_classification, PDO::PARAM_INT);
     $stmt->execute();
-    
+
     $project_id = $db->lastInsertId();
 
     $message = "A new prject named \"{$name}\" was created by username \"" . $_SESSION['user'] . "\".";
     write_log(1000, $_SESSION['uid'], $message, "project");
-    
+
     // Close the database connection
     db_close($db);
 
@@ -20853,7 +20853,7 @@ function update_project($proejct_id, $project){
 
     // Open the database connection
     $db = db_open();
-    
+
     $stmt = $db->prepare("UPDATE `projects` SET `name`=:name, `due_date`=:due_date, `consultant`=:consultant, `business_owner`=:business_owner, `data_classification`=:data_classification WHERE value=:id;)");
     $stmt->bindParam(":id", $proejct_id, PDO::PARAM_INT);
     $stmt->bindParam(":name", $name, PDO::PARAM_STR, 1000);
@@ -20865,7 +20865,7 @@ function update_project($proejct_id, $project){
 
     $message = "A prject named \"{$name}\" was updated by username \"" . $_SESSION['user'] . "\".";
     //write_log(1000, $_SESSION['uid'], $message, "project");
-    
+
     // Close the database connection
     db_close($db);
 
@@ -20881,9 +20881,9 @@ function get_project($id){
     $stmt = $db->prepare("SELECT * FROM `projects` WHERE value=:id");
     $stmt->bindParam(":id", $id, PDO::PARAM_INT);
     $stmt->execute();
-    
+
     $project = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     // Close the database connection
     db_close($db);
     // If customization extra is enabled
@@ -20894,7 +20894,7 @@ function get_project($id){
         $custom_values = get_custom_value_by_row_id($id, "project");
         $project['custom_values'] = $custom_values;
     }
-    
+
     return $project;
 }
 
@@ -20933,7 +20933,7 @@ function purify_html($html) {
     if (!isset($GLOBALS['DEFAULT_HTML_PURIFIER'])) {
         $GLOBALS['DEFAULT_HTML_PURIFIER'] = new HTMLPurifier();
     }
-    
+
     // After pruify strips the target attribute from hyperlinks add it back as _blank to force the links to open in a new tab
     return str_replace('href=', 'target="_blank" href=', $GLOBALS['DEFAULT_HTML_PURIFIER']->purify($html));
 }
@@ -20960,13 +20960,13 @@ function populate_core_template_variable($template, $variable, $value, $escape =
             global $escaper;
             $value = $escaper->escapeHtml($value);
         }
-        
+
         // Escaping the $ so the preg_replace is not treating $500 as the 500th capture group's value
         $value = str_replace('$', '\$', $value);
     } else {
         $value = '-';
     }
-    
+
     return preg_replace('@<span class="variable" data-id="' . $variable . '">.+?</span>@', $value, $template);
 }
 
@@ -21105,12 +21105,12 @@ function sanitize_int_array($int_array) {
 function reassign_groupless_risk_catalogs($default_group_id = false) {
 
     $db = db_open();
-    
+
     if (!$default_group_id) {
         // Get value of the default risk group
         $stmt = $db->prepare("SELECT `value` FROM `risk_grouping` WHERE `default` = 1");
         $stmt->execute();
-        
+
         $default_group_id = (int)$stmt->fetchColumn();
     }
 
@@ -21176,12 +21176,12 @@ function save_graphical_selections($type, $name, $graphic_form_data=[])
     global $escaper, $lang;
 
     $graphical_display_settings = json_encode($graphic_form_data);
-    
+
     // Open the database connection
     $db = db_open();
 
     $stmt = $db->prepare("INSERT INTO `graphical_saved_selections` (`user_id`, `type`, `name`, `graphical_display_settings`) VALUES (:user_id, :type, :name, :graphical_display_settings); ");
-    
+
     $stmt->bindParam(":user_id", $_SESSION['uid'], PDO::PARAM_INT);
     $stmt->bindParam(":type", $type, PDO::PARAM_STR);
     $stmt->bindParam(":name", $name, PDO::PARAM_STR);
@@ -21210,7 +21210,7 @@ function delete_graphical_selection($id)
     $db = db_open();
 
     $stmt = $db->prepare("DELETE FROM `graphical_saved_selections` WHERE value=:value; ");
-    
+
     $stmt->bindParam(":value", $id, PDO::PARAM_INT);
     $stmt->execute();
 
@@ -21239,7 +21239,7 @@ function check_exisiting_graphical_selection_name($user_id, $name)
 
     // Close the database connection
     db_close($db);
-    
+
     return $array ? true: false;
 }
 /******************************************
@@ -21253,7 +21253,7 @@ function get_graphical_saved_selections($user_id)
     // If the requesting user is an admin then return all the saved selections
     // When returning other users' saved selections add the users' name to the saved selections' names
     // Results are ordered to have the user's own saved selections first,
-    // then they're ordered to display private saved selections first then the publics 
+    // then they're ordered to display private saved selections first then the publics
     $stmt = $db->prepare("
         SELECT
             `dss`.`value`,
@@ -21297,7 +21297,7 @@ function get_graphical_saved_selection($value)
 
     // Get dynamic saved selections
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     // Close the database connection
     db_close($db);
 
@@ -21400,7 +21400,7 @@ function create_default_admin_account()
       <div class=\"navbar\">
         <div class=\"navbar-inner\">
           <div class=\"container-fluid\">
-            <a class=\"brand\" href=\"https://www.infopercept.com/\"><img src=\"images/logo@2x.png\" alt=\"Invinsense Enterprise Risk Management\" /></a>
+            <a class=\"brand\" href='#'><img src=\"images/logo@2x.png\" alt=\"Invinsense Enterprise Risk Management\" /></a>
             <div class=\"navbar-content pull-right\">
               <ul class=\"nav\">
                 <li>
@@ -21879,7 +21879,7 @@ function object2array($object)
 
 /**
  * Get the default list of displayed columns for a field group
- * 
+ *
  * @param string $group - field group(asset, risk, ..., etc)
  * @return string[] the list of enabled field names. Example: ['id', 'name', 'value', ..., etc]
  */
@@ -21891,11 +21891,11 @@ function field_settings_get_display_defaults($view) {
 
 /**
  * Get localized display strings for the field group
- * 
+ *
  * @param string $group - field group(asset, risk, ..., etc)
  * @param boolean $escaped - localization need to be escaped or not
- * @param boolean $escape_html - HTML escaping or JS  
- * @return string[] ['field_name1' => 'localized string1', 'field_name2' => 'localized string2', ...] 
+ * @param boolean $escape_html - HTML escaping or JS
+ * @return string[] ['field_name1' => 'localized string1', 'field_name2' => 'localized string2', ...]
  */
 function field_settings_get_localization($view, $grouped = true, $escaped = true, $escape_html = true) {
 
@@ -21915,12 +21915,12 @@ function field_settings_get_localization($view, $grouped = true, $escaped = true
 
         foreach ($field_settings_display_groups[$group]['fields'] as $field_name) {
             $field = $field_settings[$type][$field_name];
-            
+
             // Skip fields that are not set up to be displayed
             if (empty($field['localization_key'])) {
                 continue;
             }
-            
+
             if ($customization) {
                 // Have to use the technical fields even when we use the customization fields as these fields are not in customization
                 if (!empty($field['technical_field']) && $field['technical_field']) {
@@ -21954,7 +21954,7 @@ function field_settings_get_localization($view, $grouped = true, $escaped = true
                 'bottom' => 100,
             ];
 
-            // Order the fields by whether it is a basic field, what's panel it's assigned to and its order within that panel 
+            // Order the fields by whether it is a basic field, what's panel it's assigned to and its order within that panel
             usort($active_fields, function($a, $b) use ($panel_weights) {
                 return (((int)$b['is_basic'] * 1000) + $panel_weights[$b['panel_name']] - $b['ordering']) <=> (((int)$a['is_basic'] * 1000) + $panel_weights[$a['panel_name']] - $a['ordering']);
             });
@@ -21977,7 +21977,7 @@ function field_settings_get_localization($view, $grouped = true, $escaped = true
                         // $field_names_by_customization_field_names[$active_field['name']] is used to get the field name associated with a given customization field
                         // and we use it in $field_settings[$type][$field_names_by_customization_field_names[$active_field['name']]]['localization_key'] to get the localization key associated to the customization field
                         // to get the actual localized string with $lang[$field_settings[$type][$field_names_by_customization_field_names[$active_field['name']]]['localization_key']]
-                        
+
                         if ($grouped) {
                             $localizations[$group][$field_names_by_customization_field_names[$active_field['name']]] = $lang[$field_settings[$type][$field_names_by_customization_field_names[$active_field['name']]]['localization_key']];
                         } else {
@@ -22009,16 +22009,16 @@ function field_settings_get_localization($view, $grouped = true, $escaped = true
 }
 
 /**
- * Gets the select/join parts that can be used to construct a select query to get the data for the view. 
+ * Gets the select/join parts that can be used to construct a select query to get the data for the view.
  * Can get a list of fields you want to parts for or it can load the saved selections for the view.
- * 
+ *
  * @param string $view the view
  * @param array $selected_fields a list of fields you need the select/join parts for. If not specified then tries to load the saved selected fields for the view.
  * @param boolean $technical_fields whether to return the technical fields as well
  * @return [string[],string[]] returns two string arrays. One for the select parts the other for the joins
  */
 function field_settings_get_join_parts($view, $selected_fields = [], $technical_fields = true) {
-    
+
     global $field_settings, $field_settings_views;
     $type = $field_settings_views[$view]['view_type'];
     $customization = customization_extra();
@@ -22050,7 +22050,7 @@ function field_settings_get_join_parts($view, $selected_fields = [], $technical_
             $selected_custom_fields []= (int)$matches[1];
             continue;
         }
-        
+
         $field = $field_settings[$type][$selected_field_name];
         if (!empty($field['select_parts'])) {
             $select_parts = array_merge($select_parts, $field['select_parts']);
@@ -22071,9 +22071,9 @@ function field_settings_get_join_parts($view, $selected_fields = [], $technical_
 }
 
 /**
- * 
+ *
  * Returns the valid field keys for the view. Only the active customization fields are returned.
- * 
+ *
  * @param string $view The view's name
  * @return string[] The list of valid field keys
  */
@@ -22130,7 +22130,7 @@ function display_settings_get_saved_selection($view, $user_id = null) {
     if (empty($user_id)) {
         $user_id = $_SESSION['uid'];
     }
-    
+
     $db = db_open();
     $stmt = $db->prepare("
         SELECT
@@ -22160,9 +22160,9 @@ function display_settings_get_saved_selection($view, $user_id = null) {
 function display_settings_save_selection_single($view, $display_settings) {
 
     $user_id = $_SESSION['uid'];
-    
+
     $display_settings = json_encode($display_settings);
-    
+
     $db = db_open();
 
     $stmt = $db->prepare("
@@ -22203,14 +22203,14 @@ function display_settings_save_selection_single($view, $display_settings) {
  * Returns the list of selected fields saved for the view or the default if there's no list saved by the user yet.
  * It will only return currently valid fields, meaning that it'll remove fields from the save that are not in the configuration anymore
  * or deactivated in the customization extra since the save was created
- * 
+ *
  * @param string $view Name of the view
  * @return string[] The list of selected fields for the view
  */
 function display_settings_get_display_settings_for_view($view) {
     // The function returns the whole settings including the 'display_settings' field that contains the list of names of selected columns
     $settings = display_settings_get_saved_selection($view);
-    
+
     // If there're no saved settings for this view yet or the save contains no fields selected
     if (empty($settings) || empty($settings['display_settings'])) {
         // then we load the list of default selected fields
@@ -22218,24 +22218,24 @@ function display_settings_get_display_settings_for_view($view) {
     } else {
         // For this we only need the list of names in the 'display_settings' field
         $settings = $settings['display_settings'];
-        
+
         // validate it against the currently setup valid fields for this view(if the customization is activated there might be fields that are disabled since the selection was saved)
         $settings = array_values(array_intersect($settings, display_settings_get_valid_field_keys($view)));
-        
+
         // if after the validation the settings are empty
         if (empty($settings)) {
             // then we load the list of default selected fields
             $settings = field_settings_get_display_defaults($view);
         }
     }
-    
+
     return $settings;
 }
 
 /**
  * Cleans up temp tables that might have stayed behind when an error occured and the logic couldn't drop the temp table as it would be intended.
  * Functionalities can be configured in the $temp_tables global variable. Checks the timestamp of the creation in the temp table's name and if it's older than 10 minutes then deletes it.
- * 
+ *
  * @param string $functionality Name of the functionality as configured in the $temp_tables variable. Leave it empty for cleaning temp tables for every functionality configured.
  */
 function temp_table_cleanup($functionality = 'all') {
@@ -22260,21 +22260,21 @@ function temp_table_cleanup($functionality = 'all') {
 
     // Open the database connection
     $db = db_open();
-    
+
     // Get the DRR temp tables that aren't deleted yet
     $database = DB_DATABASE; //Have to make a variable as bindParam can't take parameter by reference
     $stmt = $db->prepare("SELECT `table_name` FROM `information_schema`.`tables` WHERE `table_schema` = :database AND (" . implode(' OR ', $like_parts) . ");");
     $stmt->bindParam(":database", $database, PDO::PARAM_STR);
     $stmt->execute();
-    
+
     // Fetch the results
     $table_names = $stmt->fetchAll(PDO::FETCH_COLUMN);
-    
+
     // If there're tables left behind
     if (!empty($table_names)) {
         // Save the current time so we're not getting it multiple times
         $now = time();
-        
+
         // Iterate through the list of table names
         foreach ($table_names as $name) {
             // Temp table names are like tableName_creationTime_uniqueKey and we need to get the time from it
@@ -22286,7 +22286,7 @@ function temp_table_cleanup($functionality = 'all') {
             }
         }
     }
-    
+
     // Close the database connection
     db_close($db);
 }
