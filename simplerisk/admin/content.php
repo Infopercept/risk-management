@@ -135,17 +135,17 @@ global $escaper, $lang;
 		// If this is not on the hosted platform and the Import-Export Extra is not purchased
 		if (get_setting('hosting_tier') == false && !core_is_purchased("import-export"))
 		{
-			echo "<h4><a href=\"register.php\">Purchase</a> the Import-Export Extra to gain access to one-click install the following control frameworks:</h4>";
+			//echo "<h4><a href=\"register.php\">Purchase</a> the Import-Export Extra to gain access to one-click install the following control frameworks:</h4>";
 		}
 		// If the Import-Export extra is purchased but not installed
 		else if (!core_is_installed("import-export"))
 		{
-			echo "<h4><a href=\"register.php\">Install</a> your purchased Import-Export Extra to gain access to one-click install the following control frameworks:</h4>";
+			//echo "<h4><a href=\"register.php\">Install</a> your purchased Import-Export Extra to gain access to one-click install the following control frameworks:</h4>";
 		}
 		// If the Import-Export extra is purchased and installed but not activated
 		else if (!core_extra_activated("import-export"))
 		{
-			echo "<h4><a href=\"importexport.php\">Activate</a> your Import-Export Extra to gain access to one-click install the following control frameworks:</h4>";
+			//echo "<h4><a href=\"importexport.php\">Activate</a> your Import-Export Extra to gain access to one-click install the following control frameworks:</h4>";
 		}
 
 		echo "    <ol style=\"list-style-type: disc;\">\n";
@@ -208,11 +208,11 @@ global $escaper, $lang;
 			    // If the Import-Export check passed
 			    if ($import_export_check)
 			    {
-                    echo "<h4><a href=\"register.php\">Purchase</a> the Risk Assessment Extra to gain access to one-click install the following assessments:</h4>";
+                    //echo "<h4><a href=\"register.php\">Purchase</a> the Risk Assessment Extra to gain access to one-click install the following assessments:</h4>";
 			    }
 			    else
 			    {
-				    echo "<h4>The Import-Export and Risk Assessment Extras may be <a href=\"register.php\">purchased</a>, <a href=\"register.php\">installed</a> and <a href=\"register.php\">activated</a> to gain access to one-click install the following assessments:</h4>";
+				    //echo "<h4>The Import-Export and Risk Assessment Extras may be <a href=\"register.php\">purchased</a>, <a href=\"register.php\">installed</a> and <a href=\"register.php\">activated</a> to gain access to one-click install the following assessments:</h4>";
 			    }
             }
             // If the Risk Assessment extra is purchased but not installed
@@ -221,11 +221,11 @@ global $escaper, $lang;
                 // If the Import-Export check passed
                 if ($import_export_check)
                 {
-                    echo "<h4><a href=\"register.php\">Install</a> your purchased Risk Assessment Extra to gain access to one-click install the following assessments:</h4>";
+                    //echo "<h4><a href=\"register.php\">Install</a> your purchased Risk Assessment Extra to gain access to one-click install the following assessments:</h4>";
 			    }
                 else
                 {
-				    echo "<h4>The Import-Export and Risk Assessment Extras may be <a href=\"register.php\">purchased</a>, <a href=\"register.php\">installed</a> and <a href=\"register.php\">activated</a> to gain access to one-click install the following assessments:</h4>";
+				    //echo "<h4>The Import-Export and Risk Assessment Extras may be <a href=\"register.php\">purchased</a>, <a href=\"register.php\">installed</a> and <a href=\"register.php\">activated</a> to gain access to one-click install the following assessments:</h4>";
                 }
             }
             // If the Risk Assessment extra is purchased and installed but not activated
@@ -234,11 +234,11 @@ global $escaper, $lang;
                 // If the Import-Export check passed
                 if ($import_export_check)
                 {
-                    echo "<h4><a href=\"assessments.php\">Activate</a> your Risk Assessment Extra to gain access to one-click install the following assessments:</h4>";
+                    //echo "<h4><a href=\"assessments.php\">Activate</a> your Risk Assessment Extra to gain access to one-click install the following assessments:</h4>";
 			    }
                 else
                 {
-				    echo "<h4>The Import-Export and Risk Assessment Extras may be <a href=\"register.php\">purchased</a>, <a href=\"register.php\">installed</a> and <a href=\"register.php\">activated</a> to gain access to one-click install the following assessments:</h4>";
+				    //echo "<h4>The Import-Export and Risk Assessment Extras may be <a href=\"register.php\">purchased</a>, <a href=\"register.php\">installed</a> and <a href=\"register.php\">activated</a> to gain access to one-click install the following assessments:</h4>";
                 }
             }
 
